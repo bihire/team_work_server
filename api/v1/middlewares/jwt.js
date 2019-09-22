@@ -9,15 +9,14 @@ app.set("appSecret", "super-secret-secret");
 module.exports = function WebAuthentication(req, res, next) {
   const { token } = req.headers;
   if (token) {
-    jwt.verify(token, app.get("appSecret"), (err, sender) => {
+    jwt.verify(token, app.get("appSecret"), (err, token) => {
       if (err) {
         return res.status(404).json({
           status: "error",
           data: `failed to authanticate token: ${err}`
         });
       }
-      console.log(sender);
-      res.sender = sender;
+      res.token = token;
       next();
     });
   } else {
