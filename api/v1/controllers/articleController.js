@@ -1,5 +1,4 @@
-import app from '../../../app'
-import jwt from 'jsonwebtoken'
+import arraySort from 'array-sort'
 import articles from "../models/article"
 import categories from "../models/category"
 
@@ -69,6 +68,18 @@ export default {
                 });
             }
 
+        } catch (error) {
+            res.status(400).json(error)
+        }
+
+    },
+    async get_all(req, res) {
+        try {
+            res.status(200).json({
+                status: 200,
+                message: 'success',
+                data: arraySort(articles, 'updatedOn').reverse(),
+            })
         } catch (error) {
             res.status(400).json(error)
         }
