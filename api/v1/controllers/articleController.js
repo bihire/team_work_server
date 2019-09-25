@@ -1,6 +1,7 @@
 import arraySort from 'array-sort'
 import articles from "../models/article"
 import categories from "../models/category"
+import comments from '../models/comment'
 
 export default {
     async create(req, res) {
@@ -84,5 +85,30 @@ export default {
             res.status(400).json(error)
         }
 
+    },
+    async get_one(req, res) {
+        try {
+            const { articleId } = req.params
+
+            const validId = articles.find(article => article.id == articleId)
+            if (!validId) {
+                throw res.status(404).send({
+                    status: 'error',
+                    error: "article does not exist"
+                });
+            }
+            const brp = comments.filter(obj => {
+                return obj.articleId == articleId
+            })
+            const data = { ...validId, comments: brp }
+            res.status(200).json({
+                status: 200,
+                message: 'success',
+                data
+            })
+
+        } catch (error) {
+            res.status(400).json(error)
+        }
     }
 }
