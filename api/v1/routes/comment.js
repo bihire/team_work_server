@@ -5,7 +5,7 @@ import createComment from "../middlewares/commentValidation/createComment"
 import updateArticle from "../middlewares/articleValidation/updateArticle"
 
 const router = express.Router();
-router.patch("/articles/:articleId", jwt, createComment, commentController.create);
+router.post("/articles/:articleId/comments", jwt, createComment, commentController.create);
 // router.patch("/articles/:articleId", jwt, updateArticle, articleController.update);
 // router.post("/auth/signin", signin, authanticationController.login);
 
