@@ -1,7 +1,11 @@
 module.exports = {
     parserOptions: {
-        ecmaVersion: 6,
-        sourceType: 'module'
+        ecmaVersion: 9,
+        sourceType: 'module',
+        ecmaFeatures: {
+            experimentalObjectRestSpread: true
+        }
+
     },
     // extends: ['airbnb', 'prettier'
     // ],
