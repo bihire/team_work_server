@@ -111,6 +111,16 @@ export default {
             res.status(400).json(error)
         }
     },
+    async get_self(req, res) {
+        const token = res.token
+        const myArticles = articles.filter(obj => obj.owner === token.id)
+        res.status(200).json({
+            status: 200,
+            message: 'found the following articles',
+            data: arraySort(myArticles, 'updatedOn').reverse(),
+        })
+
+    },
     async delete(req, res) {
         const { articleId } = req.params
         const token = res.token
