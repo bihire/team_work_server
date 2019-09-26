@@ -9,5 +9,6 @@ router.post("/articles", jwt, createArticle, articleController.create);
 router.patch("/articles/:articleId", jwt, updateArticle, articleController.update);
 router.get("/feeds", jwt, articleController.get_all);
 router.get("/articles/:articleId", jwt, articleController.get_one);
+router.delete("/articles/:articleId", jwt, articleController.delete);
 
 export default router;
