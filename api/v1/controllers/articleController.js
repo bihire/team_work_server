@@ -110,5 +110,33 @@ export default {
         } catch (error) {
             res.status(400).json(error)
         }
+    },
+    async delete(req, res) {
+        const { articleId } = req.params
+        const token = res.token
+        const item = articles.find(article => article.id == articleId)
+
+        const validId = articles.findIndex(article => article.id == articleId)
+        if (validId === -1) {
+            throw res.status(404).send({
+                status: 404,
+                message: "article does not exist"
+            });
+        }
+        if (token.id !== item.owner) throw res.status(405).send({
+            status: 405,
+            message: "you have no rights over this property"
+        });
+
+        const brp = categories.filter(obj => obj.articleId == articleId)
+        const cmnt = comments.filter(obj => obj.articleId == articleId)
+        articles.splice(validId, 1)
+        brp.forEach(f => categories.splice(categories.findIndex(e => e.articleId == f.articleId), 1))
+        cmnt.forEach(f => comments.splice(comments.findIndex(e => e.articleId == f.articleId), 1))
+
+        res.status(200).json({
+            status: 200,
+            message: 'article successfully deleted'
+        })
     }
 }
