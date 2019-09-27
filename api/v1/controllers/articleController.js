@@ -2,6 +2,7 @@ import arraySort from 'array-sort'
 import articles from "../models/article"
 import categories from "../models/category"
 import comments from '../models/comment'
+import users from '../models/user'
 
 export default {
     async create(req, res) {
@@ -114,6 +115,23 @@ export default {
     async get_self(req, res) {
         const token = res.token
         const myArticles = articles.filter(obj => obj.owner === token.id)
+        res.status(200).json({
+            status: 200,
+            message: 'found the following articles',
+            data: arraySort(myArticles, 'updatedOn').reverse(),
+        })
+
+    },
+    async get_author_all(req, res) {
+        const { authorId } = req.params
+
+        const author = users.find(obj => obj.id == authorId)
+        if (!author) throw res.status(404).json({
+            status: 404,
+            error: "author does not exist"
+        })
+        const myArticles = articles.filter(obj => obj.owner == authorId)
+
         res.status(200).json({
             status: 200,
             message: 'found the following articles',
