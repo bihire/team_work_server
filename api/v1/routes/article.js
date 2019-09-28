@@ -1,5 +1,6 @@
 import express from 'express'
 import articleController from '../controllers/articleController'
+import categoryController from '../controllers/categoryController'
 import jwt from "../middlewares/jwt"
 import createArticle from "../middlewares/articleValidation/createArticle"
 import updateArticle from "../middlewares/articleValidation/updateArticle"
@@ -12,5 +13,6 @@ router.get("/articles/:articleId", jwt, articleController.get_one);
 router.get("/my_articles", jwt, articleController.get_self);
 router.get("/user/:authorId", jwt, articleController.get_author_all);
 router.delete("/articles/:articleId", jwt, articleController.delete);
+router.get("/categories/:bro", jwt, categoryController.category);
 
 export default router;
