@@ -122,6 +122,7 @@ export default {
         })
 
     },
+
     async get_author_all(req, res) {
         const { authorId } = req.params
 
