@@ -4,7 +4,7 @@
   "description": "server side of teamwork app",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require babel-register test/*.js --exit",
+    "test": "mocha --require @babel/register test/*.js --exit",
     "lint": "eslint --ignore-path .gitignore **/*.js",
     "format": "prettier-eslint **/*.{js,json} --write",
     "start": "nodemon --exec babel-node ./start.js"
@@ -18,11 +18,11 @@
   "devDependencies": {
     "@babel/cli": "^7.6.0",
     "@babel/core": "^7.6.0",
-    "@babel/plugin-transform-runtime": "^7.6.0",
-    "@babel/preset-env": "^7.6.0",
-    "@babel/register": "^7.6.0",
     "@babel/node": "^7.6.1",
+    "@babel/plugin-transform-runtime": "^7.6.0",
     "@babel/polyfill": "^7.6.0",
+    "@babel/preset-env": "^7.6.0",
+    "@babel/register": "^7.6.2",
     "babel-core": "^7.0.0-bridge.0",
     "babel-jest": "^24.9.0",
     "chai": "^4.1.2",
