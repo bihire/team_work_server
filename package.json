@@ -7,7 +7,11 @@
     "test": "mocha --require @babel/register test/*.js --exit",
     "lint": "eslint --ignore-path .gitignore **/*.js",
     "format": "prettier-eslint **/*.{js,json} --write",
-    "start": "nodemon --exec babel-node ./start.js"
+    "start": "nodemon --exec babel-node ./app.js",
+    "nyctest": "nyc npm run test",
+    "coveralls": "nyc --verbose report --reporter=text-lcov  | coveralls",
+    "ci": "npm run nyctest && npm run coveralls",
+    "debug": "node --inspect-brk ./app"
   },
   "repository": {
     "type": "git",
@@ -50,10 +54,24 @@
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "coveralls": "^3.0.4",
+    "nyc": "^14.1.1"
   },
   "bugs": {
     "url": "https://github.com/bihire/team_work_server/issues"
   },
-  "homepage": "https://github.com/bihire/team_work_server#readme"
+  "homepage": "https://github.com/bihire/team_work_server#readme",
+  "babel": {
+    "presets": [
+      [
+        "@babel/preset-env",
+        {
+          "targets": {
+            "node": "current"
+          }
+        }
+      ]
+    ]
+  }
 }

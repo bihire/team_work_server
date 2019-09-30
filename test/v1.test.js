@@ -1,8 +1,8 @@
-// require('../start')
 
 const chai = require('chai')
 const chaiHttp = require('chai-http')
 const supertest = require('supertest')
+import app from '../app.js'
 
 chai.use(chaiHttp);
 chai.should();
