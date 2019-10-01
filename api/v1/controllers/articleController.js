@@ -14,7 +14,6 @@ export default {
 
         articles.push({ ...value })
 
-        // const data = Object.assign({}, value, { category })
         const data = { ...value, category }
         res.status(201).json({
             status: 201,

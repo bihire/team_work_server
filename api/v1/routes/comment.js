@@ -6,7 +6,5 @@ import updateArticle from "../middlewares/articleValidation/updateArticle"
 
 const router = express.Router();
 router.post("/articles/:articleId/comments", jwt, createComment, commentController.create);
-// router.patch("/articles/:articleId", jwt, updateArticle, articleController.update);
-// router.post("/auth/signin", signin, authanticationController.login);
 
 export default router;

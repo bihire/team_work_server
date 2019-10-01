@@ -30,7 +30,6 @@ export default {
         })
     },
     async fetch_comment(req, res) {
-        // console.log({ commentFlags, comments })
         const data = []
         commentFlags.forEach(flag => {
             const comment = comments.find(x => x.id == flag.commentId)

@@ -1,7 +1,7 @@
-const users = require("../../models/user");
+import users from "../../models/user"
 
-const joi = require("joi");
-module.exports = (req, res, next) => {
+import joi from "joi"
+export default (req, res, next) => {
     const id_auto_inc = users.length <= 0 ? 1 : users[users.length - 1].id + 1;
     const {
         firstName,

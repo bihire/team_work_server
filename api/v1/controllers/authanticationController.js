@@ -1,16 +1,11 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import users from "../models/user"
-import bcryptjs from 'bcryptjs'
 import hashPassword from '../heplpers/hash'
 import comparePassword from '../heplpers/compareHash'
-const saltRounds = 8
 
 const app = express();
 
-// hashPassword("boris")
-
-// We also need a secret to encode/decode our JWTs
 app.set("appSecret", "super-secret-secret");
 export default {
     async register(req, res) {
@@ -22,12 +17,12 @@ export default {
                     message: "Email provided already exist"
                 });
             value.password = await hashPassword(value.password)
-            users.push(value);
+            users.push({ ...value });
             const token = jwt.sign(value, app.get("appSecret"));
             res.status(201).send({
                 status: 201,
                 message: "User created successfully",
-                data: value
+                data: token
             });
 
 

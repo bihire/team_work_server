@@ -1,8 +1,5 @@
-const users = require("../../models/user");
-
-const joi = require("joi");
-
-module.exports = (req, res, next) => {
+import joi from "joi"
+export default (req, res, next) => {
     const { email, password } = req.body
     const user = { email, password }
     const schema = joi.object().keys({
@@ -16,7 +13,6 @@ module.exports = (req, res, next) => {
             .string()
 
     });
-    console.log(req.body.email)
     const { error, value } = joi.validate(user, schema);
 
     if (error) {

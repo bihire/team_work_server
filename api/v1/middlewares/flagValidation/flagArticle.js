@@ -1,5 +1,3 @@
-// const users = require("../../models/user");
-// import JSON from 'circular-json'
 import articleFlags from "../../models/articleFlag"
 import { dateTime } from "../../heplpers/date"
 

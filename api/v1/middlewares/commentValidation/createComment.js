@@ -1,11 +1,8 @@
-// const users = require("../../models/user");
-// import JSON from 'circular-json'
 import comments from "../../models/comment"
 import { dateTime } from "../../heplpers/date"
 
-
-const joi = require("joi");
-module.exports = (req, res, next) => {
+import joi from "joi"
+export default (req, res, next) => {
     try {
         const token = res.token
         const id_auto_inc = comments.length <= 0 ? 1 : comments[comments.length - 1].id + 1;
@@ -74,4 +71,4 @@ module.exports = (req, res, next) => {
         return res.status(400).json(error)
     }
 
-};
+}

@@ -1,7 +1,7 @@
 
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-const supertest = require('supertest')
+import chai from 'chai'
+import chaiHttp from 'chai-http'
+import supertest from 'supertest'
 import app from '../app.js'
 
 chai.use(chaiHttp);
@@ -153,35 +153,6 @@ describe('Article', () => {
                 });
         });
     });
-
-
-    //     describe('get property type', () => {
-    //         it('should get property by type', (done) => {
-    //             supertest('http://localhost:8081/api/v1')
-    //                 .get('/properti/bro?type=bro')
-    //                 .set('Accept', 'application/json')
-    //                 .expect('Content-Type', /json/)
-    //                 .end((err, res) => {
-    //                     res.should.have.status(200);
-    //                     res.should.be.a('object');
-    //                     done();
-    //                 });
-    //         });
-    //     });
-
-    //     describe('By userId', () => {
-    //         it('should all the user properties', (done) => {
-    //             supertest('http://localhost:8081/api/v1')
-    //                 .get('/property/user/1')
-    //                 .set('Accept', 'application/json')
-    //                 .expect('Content-Type', /json/)
-    //                 .end((err, res) => {
-    //                     res.should.have.status(200);
-    //                     res.should.be.a('object');
-    //                     done();
-    //                 });
-    //         });
-    //     });
 
     describe('Delete an article', () => {
         it('Employee should delete their own article', (done) => {

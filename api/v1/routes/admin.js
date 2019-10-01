@@ -7,6 +7,9 @@ import admin from "../middlewares/adminValidation/admin"
 import jwt from "../middlewares/jwt"
 
 const router = express.Router()
+
+// -------------- Admin can ignore flagged ----------------------
+
 router.get("/admin/articles", jwt, admin, adminController.fetch_article)
 router.get("/admin/comments", jwt, admin, adminController.fetch_comment)
 

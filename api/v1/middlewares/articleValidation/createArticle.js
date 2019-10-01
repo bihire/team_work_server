@@ -1,11 +1,8 @@
-// const users = require("../../models/user");
-// import JSON from 'circular-json'
 import articles from "../../models/article"
-import { dateTime } from "../../heplpers/date"
+import dateTime from "../../heplpers/date"
 
-
-const joi = require("joi");
-module.exports = (req, res, next) => {
+import joi from "joi"
+export default (req, res, next) => {
     try {
         const token = res.token
         const id_auto_inc = articles.length <= 0 ? 1 : articles[articles.length - 1].id + 1;
@@ -40,10 +37,6 @@ module.exports = (req, res, next) => {
             status: 204,
             message: 'all categories must be strings and only contain the following characters: alphanumeric,spaces, -,_'
         }
-
-        console.log(newCategory)
-
-
         const artl = {
             id: id_auto_inc,
             owner: token.id,
@@ -101,7 +94,7 @@ module.exports = (req, res, next) => {
                 default:
                     res.status(400).send({
                         status: "error",
-                        error: `invalid information`
+                        error: `invalid information ${dateTime}`
                     });
                     break;
             }
