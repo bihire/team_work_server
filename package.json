@@ -49,14 +49,15 @@
     "body-parser": "^1.19.0",
     "circular-json": "^0.5.9",
     "cors": "^2.8.5",
+    "coveralls": "^3.0.4",
+    "dotenv": "^8.1.0",
     "express": "^4.17.1",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
-    "path": "^0.12.7",
-    "coveralls": "^3.0.4",
-    "nyc": "^14.1.1"
+    "nyc": "^14.1.1",
+    "path": "^0.12.7"
   },
   "bugs": {
     "url": "https://github.com/bihire/team_work_server/issues"

@@ -3,11 +3,10 @@ import jwt from 'jsonwebtoken'
 import users from "../models/user"
 import hashPassword from '../heplpers/hash'
 import comparePassword from '../heplpers/compareHash'
-import env from '../../../config/.env'
 
 const app = express();
 
-app.set(env.secret, "super-secret-secret");
+app.set(process.env.secret, "super-secret-secret");
 export default new class AuthanticationController {
     /**
      * @description This helps a new Employee to create credentials
@@ -24,7 +23,7 @@ export default new class AuthanticationController {
                 });
             value.password = await hashPassword(value.password)
             users.push({ ...value });
-            const token = jwt.sign(value, app.get(env.secret));
+            const token = jwt.sign(value, app.get(process.env.secret));
             res.status(201).send({
                 status: 201,
                 message: "User created successfully",
@@ -55,7 +54,7 @@ export default new class AuthanticationController {
             const isUser = await comparePassword({ value, User })
 
             if (isUser) {
-                const token = jwt.sign(User, app.get(env.secret));
+                const token = jwt.sign(User, app.get(process.env.secret));
                 res.status(200).json({
                     status: 200,
                     data: token
