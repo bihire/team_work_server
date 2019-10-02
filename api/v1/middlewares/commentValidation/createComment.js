@@ -1,5 +1,5 @@
 import comments from "../../models/comment"
-import { dateTime } from "../../heplpers/date"
+import dateTime from "../../heplpers/date"
 
 import joi from "joi"
 export default (req, res, next) => {

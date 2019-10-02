@@ -1,7 +1,6 @@
-// import { create } from "istanbul-reports";
 import articles from "../models/article";
 import comments from "../models/comment";
-export default {
+export default new class CommentController {
     async create(req, res) {
         try {
             const value = req.value

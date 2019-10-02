@@ -1,10 +1,9 @@
 import express from 'express'
-import commentController from '../controllers/commentController'
-import jwt from "../middlewares/jwt"
+import CommentController from '../controllers/commentController'
+import jwt from "../middlewares/authJWT"
 import createComment from "../middlewares/commentValidation/createComment"
-import updateArticle from "../middlewares/articleValidation/updateArticle"
 
 const router = express.Router();
-router.post("/articles/:articleId/comments", jwt, createComment, commentController.create);
+router.post("/:articleId/comments", jwt, createComment, CommentController.create);
 
 export default router;

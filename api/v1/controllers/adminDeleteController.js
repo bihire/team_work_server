@@ -5,7 +5,12 @@ import comments from '../models/comment'
 import commentFlags from "../models/commentFlag"
 
 
-export default {
+export default new class AdminDeleteController {
+    /**
+    * @description This helps the admin to delete a flagged article, its flags and comments
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async article(req, res) {
         const { flagId } = req.params
         const validFlag = articleFlags.findIndex(article => article.id == flagId)
@@ -40,7 +45,12 @@ export default {
             message: 'article successfully deleted and every thing assiciated'
         })
 
-    },
+    }
+    /**
+     * @description This helps the admin to delete a flagged comments and their flags
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
     async comment(req, res) {
         const { flagId } = req.params
         const validFlag = commentFlags.findIndex(obj => obj.id == flagId)
@@ -56,7 +66,7 @@ export default {
         comments.splice(validFlag, 1)
 
         res.json({
-            status: 200,
+            status: 204,
             message: 'comment successfully deleted and every thing assiciated'
 
         })

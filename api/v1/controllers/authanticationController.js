@@ -3,11 +3,17 @@ import jwt from 'jsonwebtoken'
 import users from "../models/user"
 import hashPassword from '../heplpers/hash'
 import comparePassword from '../heplpers/compareHash'
+import env from '../../../config/.env'
 
 const app = express();
 
-app.set("appSecret", "super-secret-secret");
-export default {
+app.set(env.secret, "super-secret-secret");
+export default new class AuthanticationController {
+    /**
+     * @description This helps a new Employee to create credentials
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
     async register(req, res) {
         try {
             const value = await req.value;
@@ -18,7 +24,7 @@ export default {
                 });
             value.password = await hashPassword(value.password)
             users.push({ ...value });
-            const token = jwt.sign(value, app.get("appSecret"));
+            const token = jwt.sign(value, app.get(env.secret));
             res.status(201).send({
                 status: 201,
                 message: "User created successfully",
@@ -31,7 +37,12 @@ export default {
                 message: `error: ${error}`
             });
         }
-    },
+    }
+    /**
+     * @description This checks if it is a registered Employee and returns a token as a response
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
     async login(req, res) {
         try {
             const value = req.value;
@@ -44,7 +55,7 @@ export default {
             const isUser = await comparePassword({ value, User })
 
             if (isUser) {
-                const token = jwt.sign(User, app.get('appSecret'));
+                const token = jwt.sign(User, app.get(env.secret));
                 res.status(200).json({
                     status: 200,
                     data: token

@@ -1,5 +1,5 @@
 import articleFlags from "../../models/articleFlag"
-import { dateTime } from "../../heplpers/date"
+import dateTime from "../../heplpers/date"
 
 
 const joi = require("joi");

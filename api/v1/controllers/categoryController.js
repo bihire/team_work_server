@@ -2,8 +2,8 @@ import arraySort from 'array-sort'
 import articles from "../models/article"
 import categories from "../models/category"
 
-export default {
-    async category(req, res) {
+class categoryClass {
+    async fetch_by_category(req, res) {
         const { categoryName } = req.params
         const g = categories.filter(obj => obj.category === categoryName)
         const data = []
@@ -16,5 +16,7 @@ export default {
             message: 'successfully found',
             data: arraySort(data, 'updatedOn').reverse()
         })
-    },
+    }
 }
+
+export default new categoryClass

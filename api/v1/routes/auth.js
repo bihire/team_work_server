@@ -1,10 +1,10 @@
 import express from 'express'
-import authanticationController from '../controllers/authanticationController'
-import signup from "../middlewares/authValidation/signup"
-import signin from "../middlewares/authValidation/signin"
+import AuthanticationController from '../controllers/authanticationController'
+import signupValidator from "../middlewares/authValidation/signupValidator"
+import signinValidator from "../middlewares/authValidation/signinValidator"
 
 const router = express.Router();
-router.post("/auth/signup", signup, authanticationController.register);
-router.post("/auth/signin", signin, authanticationController.login);
+router.post("/signup", signupValidator, AuthanticationController.register);
+router.post("/signin", signinValidator, AuthanticationController.login);
 
 export default router;

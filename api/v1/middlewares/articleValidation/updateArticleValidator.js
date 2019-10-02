@@ -1,4 +1,4 @@
-import { dateTime } from "../../heplpers/date"
+import dateTime from "../../heplpers/date"
 
 import joi from "joi"
 export default (req, res, next) => {
@@ -84,7 +84,7 @@ export default (req, res, next) => {
                 default:
                     res.status(400).send({
                         status: "error",
-                        error: `invalid information`
+                        error: `invalid information ${error}`
                     });
                     break;
             }

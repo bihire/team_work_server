@@ -1,14 +1,15 @@
-import jwt from "jsonwebtoken"
+import jsonwebtoken from "jsonwebtoken"
 import express from "express"
+import env from '../../../config/.env'
 
 const app = express();
 
-app.set("appSecret", "super-secret-secret");
+app.set(env.secret, "super-secret-secret");
 
 export default (req, res, next) => {
   const { token } = req.headers;
   if (token) {
-    jwt.verify(token, app.get("appSecret"), (err, token) => {
+    jsonwebtoken.verify(token, app.get(env.secret), (err, token) => {
       if (err) {
         return res.status(404).json({
           status: "error",

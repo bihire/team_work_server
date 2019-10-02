@@ -4,7 +4,13 @@ import categories from "../models/category"
 import comments from '../models/comment'
 import users from '../models/user'
 
-export default {
+export default new class ArticleController {
+    /**
+     * @description This helps the authorized Employee to create a new article
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+
     async create(req, res) {
         const value = req.value
         const category = req.category
@@ -22,7 +28,12 @@ export default {
         })
 
 
-    },
+    }
+    /**
+     * @description This helps the authorized Employee to update their article
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
     async update(req, res) {
         try {
             const { articleId } = req.params
@@ -73,7 +84,12 @@ export default {
             res.status(400).json(error)
         }
 
-    },
+    }
+    /**
+    * @description This helps the authorized Employee  to get all articles sorted from the most recently added
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async get_all(req, res) {
         try {
             res.status(200).json({
@@ -85,7 +101,12 @@ export default {
             res.status(400).json(error)
         }
 
-    },
+    }
+    /**
+    * @description This helps the authorized Employee can get one article if it exists
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async get_one(req, res) {
         try {
             const { articleId } = req.params
@@ -110,7 +131,12 @@ export default {
         } catch (error) {
             res.status(400).json(error)
         }
-    },
+    }
+    /**
+    * @description This helps the authorized Employee to get all their own articles
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async get_self(req, res) {
         const token = res.token
         const myArticles = articles.filter(obj => obj.owner === token.id)
@@ -120,8 +146,12 @@ export default {
             data: arraySort(myArticles, 'updatedOn').reverse(),
         })
 
-    },
-
+    }
+    /**
+    * @description This helps the authorized Employee to get all articles created by specific author
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async get_author_all(req, res) {
         const { authorId } = req.params
 
@@ -138,7 +168,12 @@ export default {
             data: arraySort(myArticles, 'updatedOn').reverse(),
         })
 
-    },
+    }
+    /**
+    * @description This helps the authorized Employee to delete their own articles if they exist
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
     async delete(req, res) {
         const { articleId } = req.params
         const token = res.token

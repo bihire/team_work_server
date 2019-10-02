@@ -3,7 +3,7 @@ import comments from "../models/comment";
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
 
-export default {
+export default new class FlagController {
     async article(req, res) {
         try {
             const value = req.value
@@ -32,7 +32,7 @@ export default {
             res.status(400).json(error)
         }
 
-    },
+    }
     async comment(req, res) {
         try {
             const value = req.value

@@ -1,5 +1,5 @@
 import commentFlags from "../../models/commentFlag"
-import { dateTime } from "../../heplpers/date"
+import dateTime from "../../heplpers/date"
 
 
 const joi = require("joi");

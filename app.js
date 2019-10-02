@@ -32,9 +32,9 @@ app.use((req, res, next) => {
         message: "It's not us, sorry we can't find this end point"
       });
     }
-    require(appPath)(app);
+    require(appPath)
   } else {
-    require("./index")(app);
+    require("./index")
   }
   next();
 });
