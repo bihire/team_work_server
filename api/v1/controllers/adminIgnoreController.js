@@ -1,13 +1,13 @@
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
 
-export default new class AdminIgnoreController {
+export default class AdminIgnoreController {
     /**
    * @description This helps the admin to delete just the flag on an article
    * @param  {object} req - The request object
    * @param  {object} res - The response object
    */
-    async article(req, res) {
+    static async article(req, res) {
         const { flagId } = req.params
         const validId = articleFlags.findIndex(article => article.id == flagId)
         if (validId === -1) {
@@ -27,7 +27,7 @@ export default new class AdminIgnoreController {
    * @param  {object} req - The request object
    * @param  {object} res - The response object
    */
-    async comment(req, res) {
+    static async comment(req, res) {
         const { flagId } = req.params
         const validId = commentFlags.findIndex(article => article.id == flagId)
         if (validId === -1) {

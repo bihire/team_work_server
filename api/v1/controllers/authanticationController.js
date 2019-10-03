@@ -7,13 +7,13 @@ import comparePassword from '../heplpers/compareHash'
 const app = express();
 
 app.set(process.env.secret, "super-secret-secret");
-export default new class AuthanticationController {
+export default class AuthanticationController {
     /**
      * @description This helps a new Employee to create credentials
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
-    async register(req, res) {
+    static async register(req, res) {
         try {
             const value = await req.value;
             const User = users.find(user => user.email === value.email);
@@ -42,7 +42,7 @@ export default new class AuthanticationController {
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
-    async login(req, res) {
+    static async login(req, res) {
         try {
             const value = req.value;
             const User = users.find(user => user.email === value.email);

@@ -2,8 +2,13 @@ import arraySort from 'array-sort'
 import articles from "../models/article"
 import categories from "../models/category"
 
-class categoryClass {
-    async fetch_by_category(req, res) {
+export default class CategoryController {
+    /**
+     * @description This helps a new Employee to fetch articles by category
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+    static async fetch_by_category(req, res) {
         const { categoryName } = req.params
         const g = categories.filter(obj => obj.category === categoryName)
         const data = []
@@ -18,5 +23,3 @@ class categoryClass {
         })
     }
 }
-
-export default new categoryClass

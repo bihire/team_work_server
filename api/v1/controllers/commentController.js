@@ -1,7 +1,7 @@
 import articles from "../models/article";
 import comments from "../models/comment";
-export default new class CommentController {
-    async create(req, res) {
+export default class CommentController {
+    static async create(req, res) {
         try {
             const value = req.value
             const validId = articles.find(obj => obj.id === value.articleId)

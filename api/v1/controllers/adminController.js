@@ -5,13 +5,13 @@ import articles from "../models/article";
 import comments from "../models/comment";
 
 
-export default new class AdminController {
+export default class AdminController {
     /**
      * @description This helps the admin to fetch all flagged comments
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
-    async fetch_article(req, res) {
+    static async fetch_article(req, res) {
         const data = []
         articleFlags.forEach(flag => {
             const article = articles.find(x => x.id == flag.articleId)
@@ -44,7 +44,7 @@ export default new class AdminController {
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
-    async fetch_comment(req, res) {
+    static async fetch_comment(req, res) {
         const data = []
         commentFlags.forEach(flag => {
             const comment = comments.find(x => x.id == flag.commentId)

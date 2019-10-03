@@ -3,8 +3,8 @@ import comments from "../models/comment";
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
 
-export default new class FlagController {
-    async article(req, res) {
+export default class FlagController {
+    static async article(req, res) {
         try {
             const value = req.value
             const validId = articles.find(obj => obj.id === value.articleId)
@@ -33,7 +33,7 @@ export default new class FlagController {
         }
 
     }
-    async comment(req, res) {
+    static async comment(req, res) {
         try {
             const value = req.value
             const validId = comments.find(obj => obj.id === value.commentId)

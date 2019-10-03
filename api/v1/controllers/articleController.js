@@ -4,14 +4,14 @@ import categories from "../models/category"
 import comments from '../models/comment'
 import users from '../models/user'
 
-export default new class ArticleController {
+export default class ArticleController {
     /**
      * @description This helps the authorized Employee to create a new article
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
 
-    async create(req, res) {
+    static async create(req, res) {
         const value = req.value
         const category = req.category
         category.forEach(obj => {
@@ -34,7 +34,7 @@ export default new class ArticleController {
      * @param  {object} req - The request object
      * @param  {object} res - The response object
      */
-    async update(req, res) {
+    static async update(req, res) {
         try {
             const { articleId } = req.params
             const value = req.newValue
@@ -90,7 +90,7 @@ export default new class ArticleController {
     * @param  {object} req - The request object
     * @param  {object} res - The response object
     */
-    async get_all(req, res) {
+    static async get_all(req, res) {
         try {
             res.status(200).json({
                 status: 200,
@@ -107,7 +107,7 @@ export default new class ArticleController {
     * @param  {object} req - The request object
     * @param  {object} res - The response object
     */
-    async get_one(req, res) {
+    static async get_one(req, res) {
         try {
             const { articleId } = req.params
 
@@ -137,7 +137,7 @@ export default new class ArticleController {
     * @param  {object} req - The request object
     * @param  {object} res - The response object
     */
-    async get_self(req, res) {
+    static async get_self(req, res) {
         const token = res.token
         const myArticles = articles.filter(obj => obj.owner === token.id)
         res.status(200).json({
@@ -152,7 +152,7 @@ export default new class ArticleController {
     * @param  {object} req - The request object
     * @param  {object} res - The response object
     */
-    async get_author_all(req, res) {
+    static async get_author_all(req, res) {
         const { authorId } = req.params
 
         const author = users.find(obj => obj.id == authorId)
@@ -174,7 +174,7 @@ export default new class ArticleController {
     * @param  {object} req - The request object
     * @param  {object} res - The response object
     */
-    async delete(req, res) {
+    static async delete(req, res) {
         const { articleId } = req.params
         const token = res.token
         const item = articles.find(article => article.id == articleId)
