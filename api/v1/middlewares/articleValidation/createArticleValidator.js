@@ -1,12 +1,11 @@
 import articles from "../../models/article"
 import dateTime from "../../heplpers/date"
+import id_auto_inc from "../../heplpers/id_auto_inc"
 
 import joi from "joi"
 export default (req, res, next) => {
     try {
         const token = res.token
-        const id_auto_inc = articles.length <= 0 ? 1 : articles[articles.length - 1].id + 1;
-
         const {
             title,
             article,
@@ -38,7 +37,7 @@ export default (req, res, next) => {
             message: 'all categories must be strings and only contain the following characters: alphanumeric,spaces, -,_'
         }
         const artl = {
-            id: id_auto_inc,
+            id: id_auto_inc(articles),
             owner: token.id,
             title,
             article,
@@ -89,8 +88,6 @@ export default (req, res, next) => {
                         error: `the title is compulsory and must contain between 3-25 characters`
                     });
                     break;
-
-
                 default:
                     res.status(400).send({
                         status: "error",

@@ -3,6 +3,7 @@ import articles from "../models/article"
 import categories from "../models/category"
 import comments from '../models/comment'
 import commentFlags from "../models/commentFlag"
+import findByIndex from "../heplpers/findByIndex"
 
 
 export default class AdminDeleteController {
@@ -22,9 +23,8 @@ export default class AdminDeleteController {
         }
         const findFlag = articleFlags.find(x => x.id == flagId)
         const articleId = findFlag.articleId
-        const item = articles.find(article => article.id == articleId)
 
-        const validId = articles.findIndex(article => article.id == articleId)
+        const validId = findByIndex(articles, articleId)
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,
@@ -53,7 +53,7 @@ export default class AdminDeleteController {
      */
     static async comment(req, res) {
         const { flagId } = req.params
-        const validFlag = commentFlags.findIndex(obj => obj.id == flagId)
+        const validFlag = findByIndex(commentFlags, Number(flagId))
         if (validFlag === -1) {
             throw res.status(404).send({
                 status: 404,

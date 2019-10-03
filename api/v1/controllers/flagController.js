@@ -2,13 +2,14 @@ import articles from "../models/article";
 import comments from "../models/comment";
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
+import validId from "../heplpers/findById";
 
 export default class FlagController {
     static async article(req, res) {
         try {
             const value = req.value
-            const validId = articles.find(obj => obj.id === value.articleId)
-            if (!validId) throw res.status(404).json({
+            const articleId = value.articleId
+            if (!validId(articles, articleId)) throw res.status(404).json({
                 status: 404,
                 error: 'article not found'
             })
@@ -36,8 +37,8 @@ export default class FlagController {
     static async comment(req, res) {
         try {
             const value = req.value
-            const validId = comments.find(obj => obj.id === value.commentId)
-            if (!validId) throw res.status(404).json({
+            const commentId = value.commentId
+            if (!validId(comments, commentId)) throw res.status(404).json({
                 status: 404,
                 error: 'comment not found'
             })

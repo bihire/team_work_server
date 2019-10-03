@@ -1,16 +1,16 @@
 import comments from "../../models/comment"
 import dateTime from "../../heplpers/date"
+import id_auto_inc from "../../heplpers/id_auto_inc"
 
 import joi from "joi"
 export default (req, res, next) => {
     try {
         const token = res.token
-        const id_auto_inc = comments.length <= 0 ? 1 : comments[comments.length - 1].id + 1;
         const { articleId } = req.params
         const { comment } = req.body;
 
         const cmnt = {
-            id: id_auto_inc,
+            id: id_auto_inc(comments),
             owner: token.id,
             articleId,
             comment,

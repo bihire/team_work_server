@@ -3,6 +3,7 @@ import articles from "../models/article"
 import categories from "../models/category"
 import comments from '../models/comment'
 import users from '../models/user'
+import checkInt from '../heplpers/checkInt'
 
 export default class ArticleController {
     /**
@@ -110,8 +111,8 @@ export default class ArticleController {
     static async get_one(req, res) {
         try {
             const { articleId } = req.params
-
-            const validId = articles.find(article => article.id == articleId)
+            checkInt(articleId)
+            // const validId = articles.find(article => article.id == articleId)
             if (!validId) {
                 throw res.status(404).send({
                     status: 'error',
