@@ -15,7 +15,6 @@ export default new class AdminController {
         const data = []
         articleFlags.forEach(flag => {
             const article = articles.find(x => x.id == flag.articleId)
-            console.log(article)
             if (!article) throw res.status(404).json({
                 status: 404,
                 error: `article related to flag with ID of ${flag.articleId} does not exist`
