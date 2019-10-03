@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=develop)](https://travis-ci.org/bihire/team_work_server)
 
+[![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=develop)](https://coveralls.io/github/bihire/team_work_server?branch=develop)
 
 # EPIC-Mail-3
 
