@@ -4,12 +4,11 @@
   "description": "server side of teamwork app",
   "main": "app.js",
   "scripts": {
-    "test": "mocha --require @babel/register test/*.js --exit",
+    "test": "nyc --require @babel/register mocha test/*.js --exit",
     "lint": "eslint --ignore-path .gitignore **/*.js",
     "format": "prettier-eslint **/*.{js,json} --write",
     "start": "nodemon --exec babel-node ./app.js",
-    "nyctest": "nyc npm run test",
-    "coveralls": "nyc report --reporter=text-lcov  | coveralls",
+    "coveralls": "nyc report  --reporter=text-lcov  | coveralls",
     "ci": "npm run nyctest && npm run coveralls",
     "debug": "node --inspect-brk ./app"
   },
