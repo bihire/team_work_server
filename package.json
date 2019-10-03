@@ -9,7 +9,7 @@
     "format": "prettier-eslint **/*.{js,json} --write",
     "start": "nodemon --exec babel-node ./app.js",
     "nyctest": "nyc npm run test",
-    "coveralls": "nyc --verbose report --reporter=text-lcov  | coveralls",
+    "coveralls": "nyc report --reporter=text-lcov  | coveralls",
     "ci": "npm run nyctest && npm run coveralls",
     "debug": "node --inspect-brk ./app"
   },
