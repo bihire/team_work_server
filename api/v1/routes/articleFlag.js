@@ -1,14 +1,11 @@
 import express from 'express'
-import flagController from '../controllers/flagController'
-import jwt from "../middlewares/jwt"
-// import createComment from "../middlewares/commentValidation/createComment"
-import flagArticle from "../middlewares/flagValidation/flagArticle"
-import flagComment from "../middlewares/flagValidation/flagComment"
+import FlagController from '../controllers/flagController'
+import authanticationJWT from "../middlewares/authJWT"
+import flagArticleValidator from "../middlewares/flagValidation/flagArticleValidator"
+import flagCommentValitator from "../middlewares/flagValidation/flagCommentValitator"
 
 const router = express.Router();
-router.post("/flags/:articleId/articles", jwt, flagArticle, flagController.article);
-router.post("/flags/:commentId/comments", jwt, flagComment, flagController.comment);
-// router.patch("/articles/:articleId", jwt, updateArticle, articleController.update);
-// router.post("/auth/signin", signin, authanticationController.login);
+router.post("/:articleId/articles", authanticationJWT, flagArticleValidator, FlagController.article);
+router.post("/:commentId/comments", authanticationJWT, flagCommentValitator, FlagController.comment);
 
 export default router

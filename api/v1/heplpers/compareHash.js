@@ -1,11 +1,4 @@
-import express from 'express'
-import jwt from 'jsonwebtoken'
-import users from "../models/user"
 import bcryptjs from 'bcryptjs'
-// import hash from '../heplpers/hash'
-const saltRounds = 8
-
-const app = express();
 
 const comparePassword = ({ value, User }) => {
 
@@ -16,14 +9,12 @@ const comparePassword = ({ value, User }) => {
                 resolve(true)
             } else {
                 resolve(false)
-                // res.status(401).json({ status: 401, error: 'fuck or password do not match' });
             }
 
         });
     })
-    console.log(hashedPassword)
     return hashedPassword
 }
 
 
-module.exports = comparePassword
+export default comparePassword

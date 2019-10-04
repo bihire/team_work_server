@@ -1,7 +1,7 @@
 
-const chai = require('chai')
-const chaiHttp = require('chai-http')
-const supertest = require('supertest')
+import chai from 'chai'
+import chaiHttp from 'chai-http'
+import supertest from 'supertest'
 import app from '../app.js'
 
 chai.use(chaiHttp);
@@ -63,7 +63,7 @@ describe('Article', () => {
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaXNAeWFob28uZnIiLCJhZGRyZXNzIjoiYnJvIiwicGFzc3dvcmQiOiIkMmEkMDgkdFRwbVptY3dYLmR5TFA1MllFdFJuLjJjcXhmb1dDd2pjSVA2OXV5ZHhVaU11NllmL0huQ20iLCJnZW5kZXIiOiJvdGhlciIsImpvYlJvbGUiOiJhc3Npc3N0ZW50IiwiZGVwYXJ0bWVudCI6ImVsZWN0cmljYWwiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTY4OTYyMTU5fQ.4PvrlxZ4v3bj5sXzVM21A02D-zoBo_BzyUQfb3DgBMI')
                 .send({
                     "title": "article  ",
-                    "article": "  DeprecationWarning Unhandled promise rejections are deprecated In the future promise rejections that are not handled will terminate the Nodejs process with a nonzero exit code",
+                    "article": "  DeprecationWarning Unhandgvjd promise rejections are deprecated In the future promise rejections that are not handled will terminate the Nodejs process with a nonzero exit code",
                     "category": ["kdgndk ", "network  ", "tenh", "fives", "nines"]
                 })
                 .expect('Content-Type', /json/)
@@ -83,7 +83,9 @@ describe('Article', () => {
                 .send({
 
                     "title": "brodfg  ",
-                    "article": "  DeprecationWarning Unhandled promise rejections are deprecated In the future promise rejections that are not handled will terminate the Nodejs process with a nonzero exit code"
+                    "article": "  DeprecationWarning Unhandled promise rejections are deprecated In the future promise rejections that are not handled will terminate the Nodejs process with a nonzero exit code",
+                    "category": ["kdgndk ", "network  ", "tehh", "fives", "nines"]
+
                 })
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
@@ -127,7 +129,7 @@ describe('Article', () => {
     describe('Get own articles', () => {
         it('Employee should get all their own articles', (done) => {
             supertest('http://localhost:8081/api/v1')
-                .get('/my_articles')
+                .get('/me')
                 .set('Accept', 'application/json')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaXNAeWFob28uZnIiLCJhZGRyZXNzIjoiYnJvIiwicGFzc3dvcmQiOiIkMmEkMDgkdFRwbVptY3dYLmR5TFA1MllFdFJuLjJjcXhmb1dDd2pjSVA2OXV5ZHhVaU11NllmL0huQ20iLCJnZW5kZXIiOiJvdGhlciIsImpvYlJvbGUiOiJhc3Npc3N0ZW50IiwiZGVwYXJ0bWVudCI6ImVsZWN0cmljYWwiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTY4OTYyMTU5fQ.4PvrlxZ4v3bj5sXzVM21A02D-zoBo_BzyUQfb3DgBMI')
                 .expect('Content-Type', /json/)
@@ -142,7 +144,7 @@ describe('Article', () => {
     describe('Get author articles', () => {
         it('Employee should get other author all articles', (done) => {
             supertest('http://localhost:8081/api/v1')
-                .get('/user/1')
+                .get('/articles/authors/1')
                 .set('Accept', 'application/json')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaXNAeWFob28uZnIiLCJhZGRyZXNzIjoiYnJvIiwicGFzc3dvcmQiOiIkMmEkMDgkdFRwbVptY3dYLmR5TFA1MllFdFJuLjJjcXhmb1dDd2pjSVA2OXV5ZHhVaU11NllmL0huQ20iLCJnZW5kZXIiOiJvdGhlciIsImpvYlJvbGUiOiJhc3Npc3N0ZW50IiwiZGVwYXJ0bWVudCI6ImVsZWN0cmljYWwiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTY4OTYyMTU5fQ.4PvrlxZ4v3bj5sXzVM21A02D-zoBo_BzyUQfb3DgBMI')
                 .expect('Content-Type', /json/)
@@ -154,34 +156,20 @@ describe('Article', () => {
         });
     });
 
-
-    //     describe('get property type', () => {
-    //         it('should get property by type', (done) => {
-    //             supertest('http://localhost:8081/api/v1')
-    //                 .get('/properti/bro?type=bro')
-    //                 .set('Accept', 'application/json')
-    //                 .expect('Content-Type', /json/)
-    //                 .end((err, res) => {
-    //                     res.should.have.status(200);
-    //                     res.should.be.a('object');
-    //                     done();
-    //                 });
-    //         });
-    //     });
-
-    //     describe('By userId', () => {
-    //         it('should all the user properties', (done) => {
-    //             supertest('http://localhost:8081/api/v1')
-    //                 .get('/property/user/1')
-    //                 .set('Accept', 'application/json')
-    //                 .expect('Content-Type', /json/)
-    //                 .end((err, res) => {
-    //                     res.should.have.status(200);
-    //                     res.should.be.a('object');
-    //                     done();
-    //                 });
-    //         });
-    //     });
+    describe('Get articles by category', () => {
+        it('Employee should get all articles assigned to a specific category', (done) => {
+            supertest('http://localhost:8081/api/v1')
+                .get('/articles/categories/network')
+                .set('Accept', 'application/json')
+                .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaXNAeWFob28uZnIiLCJhZGRyZXNzIjoiYnJvIiwicGFzc3dvcmQiOiIkMmEkMDgkdFRwbVptY3dYLmR5TFA1MllFdFJuLjJjcXhmb1dDd2pjSVA2OXV5ZHhVaU11NllmL0huQ20iLCJnZW5kZXIiOiJvdGhlciIsImpvYlJvbGUiOiJhc3Npc3N0ZW50IiwiZGVwYXJ0bWVudCI6ImVsZWN0cmljYWwiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTY4OTYyMTU5fQ.4PvrlxZ4v3bj5sXzVM21A02D-zoBo_BzyUQfb3DgBMI')
+                .expect('Content-Type', /json/)
+                .end((err, res) => {
+                    res.should.have.status(200);
+                    res.should.be.a('object');
+                    done();
+                });
+        });
+    });
 
     describe('Delete an article', () => {
         it('Employee should delete their own article', (done) => {
@@ -202,7 +190,7 @@ describe('Article', () => {
 describe('Comment', () => {
     describe('Create comment', () => {
         it('Employee should create a comment', (done) => {
-            supertest('http://localhost:8081/api/v1/')
+            supertest('http://localhost:8081/api/v1')
                 .post('/articles/2/comments')
                 .set('Accept', 'application/json')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaUB5YWhvby5mciIsImFkZHJlc3MiOiJicm8iLCJwYXNzd29yZCI6IiQyYSQwOCRseHptYU1CMjE2UHZiZ2hHSm1Qc3hlSzlsYXpPd0NDZ2s0VjFaR0I3ZHR4eGtZWW14MDMxQyIsImdlbmRlciI6Im90aGVyIiwiam9iUm9sZSI6ImFzc2lzc3RlbnQiLCJkZXBhcnRtZW50IjoiZWxlY3RyaWNhbCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1Njk0NTUyNTF9.JPIzWa6757ltcnFFVLegZDPhcbJd5Ebe99Q_XDkEl2g')
@@ -223,7 +211,7 @@ describe('Comment', () => {
 describe('Flag', () => {
     describe('Create article flag', () => {
         it('Employee should flag an article', (done) => {
-            supertest('http://localhost:8081/api/v1/')
+            supertest('http://localhost:8081/api/v1')
                 .post('/flags/2/articles')
                 .set('Accept', 'application/json')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaUB5YWhvby5mciIsImFkZHJlc3MiOiJicm8iLCJwYXNzd29yZCI6IiQyYSQwOCRseHptYU1CMjE2UHZiZ2hHSm1Qc3hlSzlsYXpPd0NDZ2s0VjFaR0I3ZHR4eGtZWW14MDMxQyIsImdlbmRlciI6Im90aGVyIiwiam9iUm9sZSI6ImFzc2lzc3RlbnQiLCJkZXBhcnRtZW50IjoiZWxlY3RyaWNhbCIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1Njk0NTUyNTF9.JPIzWa6757ltcnFFVLegZDPhcbJd5Ebe99Q_XDkEl2g')
@@ -240,7 +228,7 @@ describe('Flag', () => {
     });
     describe('Create comment flag', () => {
         it('Employee should flag a comment', (done) => {
-            supertest('http://localhost:8081/api/v1/')
+            supertest('http://localhost:8081/api/v1')
                 .post('/flags/1/comments')
                 .set('Accept', 'application/json')
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlYm9yaXNAeWFob28uZnIiLCJhZGRyZXNzIjoiYnJvIiwicGFzc3dvcmQiOiIkMmEkMDgkdFRwbVptY3dYLmR5TFA1MllFdFJuLjJjcXhmb1dDd2pjSVA2OXV5ZHhVaU11NllmL0huQ20iLCJnZW5kZXIiOiJvdGhlciIsImpvYlJvbGUiOiJhc3Npc3N0ZW50IiwiZGVwYXJ0bWVudCI6ImVsZWN0cmljYWwiLCJpc0FkbWluIjpmYWxzZSwiaWF0IjoxNTY4OTYyMTU5fQ.4PvrlxZ4v3bj5sXzVM21A02D-zoBo_BzyUQfb3DgBMI')
@@ -295,7 +283,7 @@ describe('Admin', () => {
                 .set('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZmlyc3ROYW1lIjoiYmloaXJlIiwibGFzdE5hbWUiOiJib3JpcyIsImVtYWlsIjoibXVoaXJlQHlhaG9vLmZyIiwiYWRkcmVzcyI6ImJybyIsInBhc3N3b3JkIjoiJDJhJDA4JHBjL09pRUN4VGFOR3lrRjBOWHhBeHV4alJSRGk3bnU2dTdMWE5tTlBoS3FFZDg4QTR6MW5LIiwiZ2VuZGVyIjoib3RoZXIiLCJqb2JSb2xlIjoiYXNzaXNzdGVudCIsImRlcGFydG1lbnQiOiJlbGVjdHJpY2FsIiwiaXNBZG1pbiI6dHJ1ZSwiaWF0IjoxNTY5NjEyMDQzfQ.uTp0HYkncArCgUIyrhJAoK8NHZKZf8Mgj7HtCddSi4c')
                 .expect('Content-Type', /json/)
                 .end((err, res) => {
-                    res.should.have.status(204);
+                    res.should.have.status(200);
                     res.should.be.a('object');
                     done();
                 });

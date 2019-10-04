@@ -1,8 +1,13 @@
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
 
-export default {
-    async article(req, res) {
+export default class AdminIgnoreController {
+    /**
+   * @description This helps the admin to delete just the flag on an article
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   */
+    static async article(req, res) {
         const { flagId } = req.params
         const validId = articleFlags.findIndex(article => article.id == flagId)
         if (validId === -1) {
@@ -12,12 +17,17 @@ export default {
             });
         }
         articleFlags.splice(validId, 1)
-        res.status(204).json({
+        res.status(200).json({
             status: 204,
             massage: "flagged article successfully deleted"
         })
-    },
-    async comment(req, res) {
+    }
+    /**
+   * @description This helps the admin to delete just the flag on a comment
+   * @param  {object} req - The request object
+   * @param  {object} res - The response object
+   */
+    static async comment(req, res) {
         const { flagId } = req.params
         const validId = commentFlags.findIndex(article => article.id == flagId)
         if (validId === -1) {
@@ -31,5 +41,5 @@ export default {
             status: 204,
             massage: "flagged comment successfully deleted"
         })
-    },
+    }
 }

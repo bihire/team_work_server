@@ -1,2 +1,2 @@
-const comments = [];
-module.exports = comments;
+const comments = []
+export default comments

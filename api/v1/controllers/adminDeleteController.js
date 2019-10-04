@@ -3,10 +3,16 @@ import articles from "../models/article"
 import categories from "../models/category"
 import comments from '../models/comment'
 import commentFlags from "../models/commentFlag"
+import findByIndex from "../heplpers/findByIndex"
 
 
-export default {
-    async article(req, res) {
+export default class AdminDeleteController {
+    /**
+    * @description This helps the admin to delete a flagged article, its flags and comments
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async article(req, res) {
         const { flagId } = req.params
         const validFlag = articleFlags.findIndex(article => article.id == flagId)
         if (validFlag === -1) {
@@ -17,9 +23,8 @@ export default {
         }
         const findFlag = articleFlags.find(x => x.id == flagId)
         const articleId = findFlag.articleId
-        const item = articles.find(article => article.id == articleId)
 
-        const validId = articles.findIndex(article => article.id == articleId)
+        const validId = findByIndex(articles, articleId)
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,
@@ -40,10 +45,15 @@ export default {
             message: 'article successfully deleted and every thing assiciated'
         })
 
-    },
-    async comment(req, res) {
+    }
+    /**
+     * @description This helps the admin to delete a flagged comments and their flags
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+    static async comment(req, res) {
         const { flagId } = req.params
-        const validFlag = commentFlags.findIndex(obj => obj.id == flagId)
+        const validFlag = findByIndex(commentFlags, Number(flagId))
         if (validFlag === -1) {
             throw res.status(404).send({
                 status: 404,
@@ -56,7 +66,7 @@ export default {
         comments.splice(validFlag, 1)
 
         res.json({
-            status: 200,
+            status: 204,
             message: 'comment successfully deleted and every thing assiciated'
 
         })

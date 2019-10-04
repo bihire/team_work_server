@@ -1,12 +1,12 @@
-// import { create } from "istanbul-reports";
 import articles from "../models/article";
 import comments from "../models/comment";
-export default {
-    async create(req, res) {
+import validId from "../heplpers/findById";
+export default class CommentController {
+    static async create(req, res) {
         try {
             const value = req.value
-            const validId = articles.find(obj => obj.id === value.articleId)
-            if (!validId) throw res.status(404).json({
+            const articleId = value.articleId
+            if (!validId(articles, articleId)) throw res.status(404).json({
                 status: 404,
                 error: 'article not found'
             })

@@ -1,5 +1,5 @@
-module.exports = app => {
-  app.get("/", (req, res) => {
-    res.send("bro you are in the index");
-  });
-};
+import app from './app'
+app.get("/", (req, res) => {
+  res.status(200).send("Welcome to our api");
+})
+
