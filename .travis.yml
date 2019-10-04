@@ -1,12 +1,7 @@
 language: node_js
 node_js:
-  - "stable"
-cache:
-  directories:
-    - "node_modules"
+  - "10.13.0"
 scripts:
-  - npm run nyctest
-before_script:
-  - npm install
+  - npm run test
 after_success:
-  - npm run ci
+  - npm run coveralls

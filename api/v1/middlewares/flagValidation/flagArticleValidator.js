@@ -1,19 +1,16 @@
-// const users = require("../../models/user");
-// import JSON from 'circular-json'
 import articleFlags from "../../models/articleFlag"
-import { dateTime } from "../../heplpers/date"
-
+import dateTime from "../../heplpers/date"
+import id_auto_inc from "../../heplpers/id_auto_inc"
 
 const joi = require("joi");
 export default (req, res, next) => {
     try {
         const token = res.token
-        const id_auto_inc = articleFlags.length <= 0 ? 1 : articleFlags[articleFlags.length - 1].id + 1;
         const { articleId } = req.params
         const { articleFlag } = req.body;
 
         const flag = {
-            id: id_auto_inc,
+            id: id_auto_inc(articleFlags),
             owner: token.id,
             articleId,
             articleFlag,

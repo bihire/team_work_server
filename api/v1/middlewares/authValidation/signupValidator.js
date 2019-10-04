@@ -1,8 +1,8 @@
-const users = require("../../models/user");
+import users from "../../models/user"
+import id_auto_inc from "../../heplpers/id_auto_inc"
 
-const joi = require("joi");
-module.exports = (req, res, next) => {
-    const id_auto_inc = users.length <= 0 ? 1 : users[users.length - 1].id + 1;
+import joi from "joi"
+export default (req, res, next) => {
     const {
         firstName,
         lastName,
@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
         isAdmin
     } = req.body;
     const user = {
-        id: id_auto_inc,
+        id: id_auto_inc(users),
         firstName,
         lastName,
         email,

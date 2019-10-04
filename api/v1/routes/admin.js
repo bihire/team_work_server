@@ -1,23 +1,26 @@
 import express from 'express'
-import adminController from '../controllers/adminController'
-import adminIgnoreController from '../controllers/adminIgnoreController'
-import adminDeleteController from '../controllers/adminDeleteController'
-import admin from "../middlewares/adminValidation/admin"
+import AdminController from '../controllers/adminController'
+import AdminIgnoreController from '../controllers/adminIgnoreController'
+import AdminDeleteController from '../controllers/adminDeleteController'
+import adminValidator from "../middlewares/adminValidation/adminValidator"
 
-import jwt from "../middlewares/jwt"
+import authanticationJWT from "../middlewares/authJWT"
 
 const router = express.Router()
-router.get("/admin/articles", jwt, admin, adminController.fetch_article)
-router.get("/admin/comments", jwt, admin, adminController.fetch_comment)
+
+// -------------- Admin can get all flagged ----------------------
+
+router.get("/articles", authanticationJWT, adminValidator, AdminController.fetch_article)
+router.get("/comments", authanticationJWT, adminValidator, AdminController.fetch_comment)
 
 // -------------- Admin can ignore flagged ----------------------
 
-router.delete("/admin/:flagId/ignore/articles", jwt, admin, adminIgnoreController.article)
-router.delete("/admin/:flagId/ignore/comments", jwt, admin, adminIgnoreController.comment)
+router.delete("/:flagId/ignore/articles", authanticationJWT, adminValidator, AdminIgnoreController.article)
+router.delete("/:flagId/ignore/comments", authanticationJWT, adminValidator, AdminIgnoreController.comment)
 
 // --------------- Admin can delete flagged items ----------------
 
-router.delete("/admin/:flagId/delete/articles", jwt, admin, adminDeleteController.article)
-router.delete("/admin/:flagId/delete/comments", jwt, admin, adminDeleteController.comment)
+router.delete("/:flagId/delete/articles", authanticationJWT, adminValidator, AdminDeleteController.article)
+router.delete("/:flagId/delete/comments", authanticationJWT, adminValidator, AdminDeleteController.comment)
 
 export default router

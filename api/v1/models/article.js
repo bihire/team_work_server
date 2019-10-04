@@ -8,4 +8,4 @@ const articles = [
         "createdOn": "2019-09-29T16:54:44.000Z",
     }
 ];
-module.exports = articles;
+export default articles;

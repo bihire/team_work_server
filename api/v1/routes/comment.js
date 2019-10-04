@@ -1,12 +1,9 @@
 import express from 'express'
-import commentController from '../controllers/commentController'
-import jwt from "../middlewares/jwt"
-import createComment from "../middlewares/commentValidation/createComment"
-import updateArticle from "../middlewares/articleValidation/updateArticle"
+import CommentController from '../controllers/commentController'
+import authanticationJWT from "../middlewares/authJWT"
+import createCommentValidator from "../middlewares/commentValidation/createCommentValidator"
 
 const router = express.Router();
-router.post("/articles/:articleId/comments", jwt, createComment, commentController.create);
-// router.patch("/articles/:articleId", jwt, updateArticle, articleController.update);
-// router.post("/auth/signin", signin, authanticationController.login);
+router.post("/:articleId/comments", authanticationJWT, createCommentValidator, CommentController.create);
 
 export default router;

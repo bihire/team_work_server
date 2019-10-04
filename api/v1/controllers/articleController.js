@@ -3,9 +3,16 @@ import articles from "../models/article"
 import categories from "../models/category"
 import comments from '../models/comment'
 import users from '../models/user'
+import checkInt from '../heplpers/checkInt'
 
-export default {
-    async create(req, res) {
+export default class ArticleController {
+    /**
+     * @description This helps the authorized Employee to create a new article
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+
+    static async create(req, res) {
         const value = req.value
         const category = req.category
         category.forEach(obj => {
@@ -14,7 +21,6 @@ export default {
 
         articles.push({ ...value })
 
-        // const data = Object.assign({}, value, { category })
         const data = { ...value, category }
         res.status(201).json({
             status: 201,
@@ -23,8 +29,13 @@ export default {
         })
 
 
-    },
-    async update(req, res) {
+    }
+    /**
+     * @description This helps the authorized Employee to update their article
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+    static async update(req, res) {
         try {
             const { articleId } = req.params
             const value = req.newValue
@@ -74,8 +85,13 @@ export default {
             res.status(400).json(error)
         }
 
-    },
-    async get_all(req, res) {
+    }
+    /**
+    * @description This helps the authorized Employee  to get all articles sorted from the most recently added
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async get_all(req, res) {
         try {
             res.status(200).json({
                 status: 200,
@@ -86,12 +102,17 @@ export default {
             res.status(400).json(error)
         }
 
-    },
-    async get_one(req, res) {
+    }
+    /**
+    * @description This helps the authorized Employee can get one article if it exists
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async get_one(req, res) {
         try {
             const { articleId } = req.params
-
-            const validId = articles.find(article => article.id == articleId)
+            checkInt(articleId)
+            // const validId = articles.find(article => article.id == articleId)
             if (!validId) {
                 throw res.status(404).send({
                     status: 'error',
@@ -111,8 +132,13 @@ export default {
         } catch (error) {
             res.status(400).json(error)
         }
-    },
-    async get_self(req, res) {
+    }
+    /**
+    * @description This helps the authorized Employee to get all their own articles
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async get_self(req, res) {
         const token = res.token
         const myArticles = articles.filter(obj => obj.owner === token.id)
         res.status(200).json({
@@ -121,9 +147,13 @@ export default {
             data: arraySort(myArticles, 'updatedOn').reverse(),
         })
 
-    },
-
-    async get_author_all(req, res) {
+    }
+    /**
+    * @description This helps the authorized Employee to get all articles created by specific author
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async get_author_all(req, res) {
         const { authorId } = req.params
 
         const author = users.find(obj => obj.id == authorId)
@@ -139,8 +169,13 @@ export default {
             data: arraySort(myArticles, 'updatedOn').reverse(),
         })
 
-    },
-    async delete(req, res) {
+    }
+    /**
+    * @description This helps the authorized Employee to delete their own articles if they exist
+    * @param  {object} req - The request object
+    * @param  {object} res - The response object
+    */
+    static async delete(req, res) {
         const { articleId } = req.params
         const token = res.token
         const item = articles.find(article => article.id == articleId)

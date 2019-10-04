@@ -3,14 +3,14 @@ import path from "path"
 import express from "express"
 import morgan from "morgan"
 import bodyparser from "body-parser"
-import cors from "cors"
 import config from "./config/config"
+import env from 'dotenv'
+env.config()
 
 const app = express();
 
 app.use(morgan("combined"));
 app.use(bodyparser.json());
-app.use(cors());
 
 app.use((req, res, next) => {
   let version = req.url.match(/\/api\/(v[0-9]+).*/) || [];
@@ -32,9 +32,9 @@ app.use((req, res, next) => {
         message: "It's not us, sorry we can't find this end point"
       });
     }
-    require(appPath)(app);
+    require(appPath)
   } else {
-    require("./index")(app);
+    require("./index")
   }
   next();
 });

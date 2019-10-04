@@ -1,15 +1,14 @@
-const jwt = require("jsonwebtoken");
-const express = require("express");
+import jsonwebtoken from "jsonwebtoken"
+import express from "express"
 
 const app = express();
 
-// We also need a secret to encode/decode our JWTs
-app.set("appSecret", "super-secret-secret");
+app.set(process.env.secret, "super-secret-secret");
 
-module.exports = function WebAuthentication(req, res, next) {
+export default (req, res, next) => {
   const { token } = req.headers;
   if (token) {
-    jwt.verify(token, app.get("appSecret"), (err, token) => {
+    jsonwebtoken.verify(token, app.get(process.env.secret), (err, token) => {
       if (err) {
         return res.status(404).json({
           status: "error",

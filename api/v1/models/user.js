@@ -10,4 +10,4 @@ const users = [{
     "department": "electrical",
     "isAdmin": true
 }];
-module.exports = users;
+export default users;

@@ -4,11 +4,11 @@ import articleRoutes from './routes/article'
 import authRoutes from "./routes/auth"
 import articleFlagRoutes from "./routes/articleFlag"
 import adminRoutes from "./routes/admin"
+import app from '../../app'
 
-module.exports = app => {
-  app.use('/api/v1', articleFlagRoutes);
-  app.use('/api/v1', commentRoutes);
-  app.use('/api/v1', articleRoutes);
-  app.use("/api/v1", authRoutes);
-  app.use("/api/v1", adminRoutes);
-};
+
+app.use('/api/v1/flags', articleFlagRoutes);
+app.use('/api/v1/articles', commentRoutes);
+app.use('/api/v1', articleRoutes);
+app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/admin", adminRoutes);

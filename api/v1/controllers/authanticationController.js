@@ -1,19 +1,19 @@
 import express from 'express'
 import jwt from 'jsonwebtoken'
 import users from "../models/user"
-import bcryptjs from 'bcryptjs'
 import hashPassword from '../heplpers/hash'
 import comparePassword from '../heplpers/compareHash'
-const saltRounds = 8
 
 const app = express();
 
-// hashPassword("boris")
-
-// We also need a secret to encode/decode our JWTs
-app.set("appSecret", "super-secret-secret");
-export default {
-    async register(req, res) {
+app.set(process.env.secret, "super-secret-secret");
+export default class AuthanticationController {
+    /**
+     * @description This helps a new Employee to create credentials
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+    static async register(req, res) {
         try {
             const value = await req.value;
             const User = users.find(user => user.email === value.email);
@@ -22,12 +22,12 @@ export default {
                     message: "Email provided already exist"
                 });
             value.password = await hashPassword(value.password)
-            users.push(value);
-            const token = jwt.sign(value, app.get("appSecret"));
+            users.push({ ...value });
+            const token = jwt.sign(value, app.get(process.env.secret));
             res.status(201).send({
                 status: 201,
                 message: "User created successfully",
-                data: value
+                data: token
             });
 
 
@@ -36,8 +36,13 @@ export default {
                 message: `error: ${error}`
             });
         }
-    },
-    async login(req, res) {
+    }
+    /**
+     * @description This checks if it is a registered Employee and returns a token as a response
+     * @param  {object} req - The request object
+     * @param  {object} res - The response object
+     */
+    static async login(req, res) {
         try {
             const value = req.value;
             const User = users.find(user => user.email === value.email);
@@ -49,7 +54,7 @@ export default {
             const isUser = await comparePassword({ value, User })
 
             if (isUser) {
-                const token = jwt.sign(User, app.get('appSecret'));
+                const token = jwt.sign(User, app.get(process.env.secret));
                 res.status(200).json({
                     status: 200,
                     data: token
