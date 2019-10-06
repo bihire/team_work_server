@@ -1,5 +1,7 @@
 import articleFlags from "../models/articleFlag";
 import commentFlags from "../models/commentFlag";
+import findByIndex from '../heplpers/findByIndex'
+import checkInt from '../heplpers/checkInt'
 
 export default class AdminIgnoreController {
     /**
@@ -9,7 +11,13 @@ export default class AdminIgnoreController {
    */
     static async article(req, res) {
         const { flagId } = req.params
-        const validId = articleFlags.findIndex(article => article.id == flagId)
+        const checkInteger = checkInt(flagId)
+        if (checkInteger === false) throw res.status(403).json({
+            status: 403,
+            error: 'flagId must be an integer, greater than 0 and contain less or equal to 8 characters long'
+        })
+        const validId = findByIndex(articleFlags, flagId)
+
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,
@@ -29,7 +37,12 @@ export default class AdminIgnoreController {
    */
     static async comment(req, res) {
         const { flagId } = req.params
-        const validId = commentFlags.findIndex(article => article.id == flagId)
+        const checkInteger = checkInt(flagId)
+        if (checkInteger === false) throw res.status(403).json({
+            status: 403,
+            error: 'flagId must be an integer, greater than 0 and contain less or equal to 8 characters long'
+        })
+        const validId = findByIndex(commentFlags, flagId)
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,

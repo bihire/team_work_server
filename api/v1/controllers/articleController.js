@@ -4,6 +4,8 @@ import categories from "../models/category"
 import comments from '../models/comment'
 import users from '../models/user'
 import checkInt from '../heplpers/checkInt'
+import findById from '../heplpers/findById'
+import filterItem from '../heplpers/filterItem'
 
 export default class ArticleController {
     /**
@@ -111,21 +113,24 @@ export default class ArticleController {
     static async get_one(req, res) {
         try {
             const { articleId } = req.params
-            checkInt(articleId)
-            // const validId = articles.find(article => article.id == articleId)
+            const checkInteger = checkInt(articleId)
+            if (checkInteger === false) throw res.status(403).json({
+                status: 403,
+                error: 'articleId must be an integer, greater than 0 and contain less or equal to 8 characters long'
+            })
+            const validId = findById(articles, checkInteger)
             if (!validId) {
                 throw res.status(404).send({
                     status: 'error',
-                    error: "article does not exist"
+                    error: `article ${checkInteger} does not exist`
                 });
             }
-            const brp = comments.filter(obj => {
-                return obj.articleId == articleId
-            })
+            const brp = filterItem(comments, checkInteger)
+
             const data = { ...validId, comments: brp }
             res.status(200).json({
                 status: 200,
-                message: 'success',
+                message: `successfuly found article ${checkInteger}`,
                 data
             })
 
@@ -155,13 +160,17 @@ export default class ArticleController {
     */
     static async get_author_all(req, res) {
         const { authorId } = req.params
-
-        const author = users.find(obj => obj.id == authorId)
+        const checkInteger = checkInt(authorId)
+        if (checkInteger === false) throw res.status(403).json({
+            status: 403,
+            error: `authorId must be an integer, greater than 0 and contain less or equal to 8 characters long`
+        })
+        const author = findById(users, checkInteger)
         if (!author) throw res.status(404).json({
             status: 404,
             error: "author does not exist"
         })
-        const myArticles = articles.filter(obj => obj.owner == authorId)
+        const myArticles = articles.filter(obj => obj.owner == checkInteger)
 
         res.status(200).json({
             status: 200,

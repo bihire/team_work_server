@@ -50,7 +50,7 @@ export default class AdminController {
             const comment = comments.find(x => x.id == flag.commentId)
             if (!comment) throw res.status(404).json({
                 status: 404,
-                error: `article related to flag with ID of ${flag.commentId} does not exist`
+                error: `comment related to flag with ID of ${flag.commentId} does not exist`
 
             })
             const g = {

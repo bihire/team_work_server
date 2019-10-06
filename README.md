@@ -1,12 +1,12 @@
 
 [![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=develop)](https://travis-ci.org/bihire/team_work_server)     [![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=develop)](https://coveralls.io/github/bihire/team_work_server?branch=develop)
 
-# EPIC-Mail-3
+# TEAMWORK SERVER
 
 A web app that helps Employees share articles between them
 
 ### Heroku API
-[EPIC Email link](https://team-work-server.herokuapp.com/)
+[TEAMWORK server link](https://team-work-server.herokuapp.com/)
 
 ## Tools Used
 
@@ -16,7 +16,7 @@ A web app that helps Employees share articles between them
 
 [Express](http://expressjs.com/) : used for building fast APIs.
 
-[Mocha and Chai](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
+[Mocha, Chai and Supertest](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
 
 [Airbnb](https://github.com/airbnb/javascript) : Style Guide.
 
@@ -25,6 +25,8 @@ A web app that helps Employees share articles between them
 [nyc](https://github.com/istanbuljs/nyc) : Test coverage.
 
 [Coveralls](https://coveralls.io/) : Git badge.
+
+[Codeclimate](https://codeclimate.com/) : Git badge.
 
 [Heroku](https://www.heroku.com/) : Deployment.
 
