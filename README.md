@@ -12,13 +12,13 @@ A web app that helps Employees share articles between them
 
 [Javascript](https://javascript.info/) : Language used.
 
-[NodeJS](https://nodejs.org/en/) : server environment.
+[NodeJS](https://nodejs.org/en/) : Javascript runtime.
 
-[Express](http://expressjs.com/) : used for building fast APIs.
+[Express](http://expressjs.com/) : NodeJs framework.
 
 [Mocha, Chai and Supertest](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
 
-[Airbnb](https://github.com/airbnb/javascript) : Style Guide.
+[Airbnb](https://github.com/airbnb/javascript) : Javascript style Guide.
 
 [Travis](https://travis-ci.org/) : Continuous Integration.
 
@@ -30,7 +30,7 @@ A web app that helps Employees share articles between them
 
 [Heroku](https://www.heroku.com/) : Deployment.
 
-[Postman](https://www.getpostman.com/) : documentation
+[Postman](https://www.getpostman.com/) : Documentation
 
 
 ## Getting Started
@@ -108,8 +108,8 @@ npm run ci
 | /api/v1/articles/`articleId` | PATCH | Update a specific Employee's article |
 | /api/v1/feeds | GET | Get all the articles |
 | /api/v1/articles/`articleId` | DELETE | Delete own article |
-| /api/v1/my_articles | GET | Get all own articles |
-| /api/v1/user/`userId` | GET | Get all author's articles |
+| /api/v1/me | GET | Get all own articles |
+| /api/v1/authors/`userId` | GET | Get all author's articles |
 | /api/v1/articles/`articleId`/comments | POST | Create a comment on an article |
 | /api/v1/flags/`articleId`/articles | POST | Flag an article |
 | /api/v1/flags/`commentId`/comments | POST | Flag an comment |
