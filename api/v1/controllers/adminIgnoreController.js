@@ -16,12 +16,12 @@ export default class AdminIgnoreController {
             status: 403,
             error: 'flagId must be an integer, greater than 0 and contain less or equal to 8 characters long'
         })
-        const validId = findByIndex(articleFlags, flagId)
-
+        const validId = findByIndex(articleFlags, checkInteger)
+        console.log(validId)
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,
-                message: "flag does not exist"
+                message: "article does not exist"
             });
         }
         articleFlags.splice(validId, 1)
@@ -42,11 +42,11 @@ export default class AdminIgnoreController {
             status: 403,
             error: 'flagId must be an integer, greater than 0 and contain less or equal to 8 characters long'
         })
-        const validId = findByIndex(commentFlags, flagId)
+        const validId = findByIndex(commentFlags, checkInteger)
         if (validId === -1) {
             throw res.status(404).send({
                 status: 404,
-                message: "flag does not exist"
+                message: "article does not exist"
             });
         }
         commentFlags.splice(validId, 1)
