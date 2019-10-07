@@ -1,5 +1,5 @@
 
-[![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=bg-server-additional-lfa-feedbacks-168970103)](https://travis-ci.org/bihire/team_work_server)     [![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=bg-server-additional-lfa-feedbacks-168970103)](https://coveralls.io/github/bihire/team_work_server?branch=develop)   [![Maintainability](https://api.codeclimate.com/v1/badges/ec2e4a537c040aa1a01a/maintainability)](https://codeclimate.com/github/bihire/team_work_server/maintainability)
+[![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=develop)](https://travis-ci.org/bihire/team_work_server)     [![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=develop)](https://coveralls.io/github/bihire/team_work_server?branch=develop)   [![Maintainability](https://api.codeclimate.com/v1/badges/ec2e4a537c040aa1a01a/maintainability)](https://codeclimate.com/github/bihire/team_work_server/maintainability)
 
 # TEAMWORK SERVER
 
