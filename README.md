@@ -109,7 +109,7 @@ npm run ci
 | /api/v1/feeds | GET | Get all the articles |
 | /api/v1/articles/`articleId` | DELETE | Delete own article |
 | /api/v1/me | GET | Get all own articles |
-| /api/v1/authors/`userId` | GET | Get all author's articles |
+| /api/v1/authors/`authorId` | GET | Get all author's articles |
 | /api/v1/articles/`articleId`/comments | POST | Create a comment on an article |
 | /api/v1/flags/`articleId`/articles | POST | Flag an article |
 | /api/v1/flags/`commentId`/comments | POST | Flag an comment |
