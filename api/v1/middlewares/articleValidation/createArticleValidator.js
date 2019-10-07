@@ -61,13 +61,14 @@ export default (req, res, next) => {
                 .required(),
             article: joi
                 .string()
-                .regex(/^[a-zA-Z0-9]{3,25}/)
+                .regex(/^[a-z\d\-_\s!@#$%^&*()+=?<>.,;:'"]+$/i)
+
                 .trim()
                 .required(),
             title: joi
                 .string()
                 .trim()
-                .regex(/^[a-zA-Z0-9]{3,25}$/)
+                .regex(/^[a-z\d\-_\s]+$/i)
                 .required(),
         });
         const { error, value } = joi.validate(artl, schema);

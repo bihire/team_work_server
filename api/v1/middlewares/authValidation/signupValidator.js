@@ -35,13 +35,13 @@ export default (req, res, next) => {
             .required(),
         firstName: joi
             .string()
-            .regex(/^[a-zA-Z0-9]{3,25}$/)
+            .regex(/^[a-zA-Z0-9\s]{3,25}$/)
             .trim()
             .required(),
         lastName: joi
             .string()
             .trim()
-            .regex(/^[a-zA-Z0-9]{3,25}$/)
+            .regex(/^[a-zA-Z0-9\s]{3,25}$/)
             .required(),
         email: joi
             .string()
@@ -50,28 +50,27 @@ export default (req, res, next) => {
             .required(),
         password: joi
             .string()
-            .regex(new RegExp("^[a-zA-Z1-9]{8,32}$"))
+            .regex(new RegExp("^[a-zA-Z0-9]{8,32}$"))
             .required(),
         gender: joi
             .string()
             .trim()
             .valid("male", "female", "other")
-            .regex(/^[a-zA-Z0-9!@#$%&*]{3,25}$/)
             .required(),
         jobRole: joi
             .string()
             .trim()
-            .regex(/^[a-zA-Z0-9]{3,25}$/)
+            .regex(/^[a-z\d\-_\s]+$/i)
             .required(),
         department: joi
             .string()
             .trim()
-            .regex(/^[a-zA-Z0-9]{3,25}$/)
+            .regex(/^[a-z\d\-_\s]+$/i)
             .required(),
         address: joi
             .string()
             .trim()
-            .regex(/^[a-zA-Z0-9]{3,25}$/)
+            .regex(/^[a-z\d\-_\s]+$/i)
             .required(),
         confirmPassword: joi
             .string()

@@ -1,24 +1,24 @@
 
-[![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=develop)](https://travis-ci.org/bihire/team_work_server)     [![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=develop)](https://coveralls.io/github/bihire/team_work_server?branch=develop)
+[![Build Status](https://travis-ci.org/bihire/team_work_server.svg?branch=develop)](https://travis-ci.org/bihire/team_work_server)     [![Coverage Status](https://coveralls.io/repos/github/bihire/team_work_server/badge.svg?branch=develop)](https://coveralls.io/github/bihire/team_work_server?branch=develop)   [![Maintainability](https://api.codeclimate.com/v1/badges/ec2e4a537c040aa1a01a/maintainability)](https://codeclimate.com/github/bihire/team_work_server/maintainability)
 
-# EPIC-Mail-3
+# TEAMWORK SERVER
 
 A web app that helps Employees share articles between them
 
 ### Heroku API
-[EPIC Email link](https://team-work-server.herokuapp.com/)
+[TEAMWORK server link](https://team-work-server.herokuapp.com/)
 
 ## Tools Used
 
 [Javascript](https://javascript.info/) : Language used.
 
-[NodeJS](https://nodejs.org/en/) : server environment.
+[NodeJS](https://nodejs.org/en/) : Javascript runtime.
 
-[Express](http://expressjs.com/) : used for building fast APIs.
+[Express](http://expressjs.com/) : NodeJs framework.
 
-[Mocha and Chai](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
+[Mocha, Chai and Supertest](https://www.youtube.com/watch?v=MLTRHc5dk6s) : Testing Framework.
 
-[Airbnb](https://github.com/airbnb/javascript) : Style Guide.
+[Airbnb](https://github.com/airbnb/javascript) : Javascript style Guide.
 
 [Travis](https://travis-ci.org/) : Continuous Integration.
 
@@ -26,9 +26,11 @@ A web app that helps Employees share articles between them
 
 [Coveralls](https://coveralls.io/) : Git badge.
 
+[Codeclimate](https://codeclimate.com/) : Git badge.
+
 [Heroku](https://www.heroku.com/) : Deployment.
 
-[Postman](https://www.getpostman.com/) : documentation
+[Postman](https://www.getpostman.com/) : Documentation
 
 
 ## Getting Started
@@ -106,8 +108,8 @@ npm run ci
 | /api/v1/articles/`articleId` | PATCH | Update a specific Employee's article |
 | /api/v1/feeds | GET | Get all the articles |
 | /api/v1/articles/`articleId` | DELETE | Delete own article |
-| /api/v1/my_articles | GET | Get all own articles |
-| /api/v1/user/`userId` | GET | Get all author's articles |
+| /api/v1/me | GET | Get all own articles |
+| /api/v1/authors/`authorId` | GET | Get all author's articles |
 | /api/v1/articles/`articleId`/comments | POST | Create a comment on an article |
 | /api/v1/flags/`articleId`/articles | POST | Flag an article |
 | /api/v1/flags/`commentId`/comments | POST | Flag an comment |
