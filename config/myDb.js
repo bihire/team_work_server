@@ -2,11 +2,11 @@ import { Pool } from 'pg'
 import env from 'dotenv'
 env.config()
 const pool = new Pool({
-    user: 'postgres',
-    host: 'localhost',
-    database: 'teamwork',
-    password: 'bobo1234',
-    post: 5432,
+    user: process.env.USER,
+    host: process.env.HOST,
+    database: process.env.DATABASE,
+    password: process.env.PASSWORD,
+    post: process.env.POST,
 })
 pool.connect((err,res,done)=> {
     if(err) {
