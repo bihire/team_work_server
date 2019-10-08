@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken'
 import users from "../models/user"
 import hashPassword from '../heplpers/hash'
 import comparePassword from '../heplpers/compareHash'
-import myDb from '../../../config/myDb'
+import { pool } from '../../../config/myDb'
 
 const app = express();
 
@@ -17,34 +17,40 @@ export default class AuthanticationController {
     static async register(req, res) {
         try {
             const value = await req.value
-            const fetch_one = ("SELECT * FROM users WHERE email ='muhireboris@yahoo.fr' ")
-            const fetch = ('SELECT * FROM users')
-            const text = ('INSERT INTO users(department, email, "firstName", gender, id, "jobRole", "lastName", password, address) VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *')
-            const values = ['electrical', 'muhireboris@yahoo.fr', 'bihire', 'male', 11, 'mechanic', 'boris', 'bobo1234', 'talk to me']
-            myDb.connect((err, client, done)=> {
-                if(err) throw err
-                client.query(fetch_one, async (err, response)=> {
-                    if (err) throw err.stack
-                    res.json({data:response.rows});
- 
-                    client.end()
+
+            value.password = await hashPassword(value.password)
+            // const fetch_one = ("SELECT * FROM users WHERE email ='muhireboris@yahoo.fr' ")
+            // const fetch = ('SELECT * FROM users')
+            const text = ('INSERT INTO users(department, email, "first_name", gender, job_role, last_name, password, address,is_admin) VALUES($1, $2, $3, $4, $5, $6,$7,$8,$9) RETURNING *')
+            const values = [value.department, value.email, value.firstName, value.gender, value.jobRole, value.lastName, value.password, value.address, value.isAdmin]
+            pool.connect(async (err, client, done) => {
+                if (err) throw err
+                client.query(text, values, async (error, response) => {
+                    try {
+
+                        if (error && error.routine === '_bt_check_unique') return res.status(401).json({
+                            status: 401,
+                            error: 'Email provided already exist'
+                        })
+
+                        console.log(error)
+
+
+                        const token = jwt.sign(response.rows[0], app.get(process.env.secret));
+                        client.end()
+
+                        return res.status(201).json({
+                            status: 201,
+                            message: "User created successfully",
+                            data: token
+                        });
+
+                    } catch (error) {
+                        return res.status(400).send({ message: `the following error happened ${error}, we will fix it soon` })
+                    }
+
                 })
             })
-            
-            // const User = users.find(user => user.email === value.email);
-            // if (User)
-            //     throw res.status(401).json({
-            //         message: "Email provided already exist"
-            //     });
-            // value.password = await hashPassword(value.password)
-            // users.push({ ...value });
-            // const token = jwt.sign(value, app.get(process.env.secret));
-            // res.status(201).send({
-            //     status: 201,
-            //     message: "User created successfully",
-            //     data: token
-            // });
-
 
         } catch (error) {
             res.status(400).send({
