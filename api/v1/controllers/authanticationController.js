@@ -21,6 +21,11 @@ export default class AuthanticationController {
                 throw res.status(401).json({
                     message: "Email provided already exist"
                 });
+            const hashedPassword = await hashPassword(value.password)
+            if(!hashedPassword) throw res.status(500).json({
+                status: 500,
+                error: `error: ${hashedPassword}`
+            })
             value.password = await hashPassword(value.password)
             users.push({ ...value });
             const token = jwt.sign(value, app.get(process.env.secret));
