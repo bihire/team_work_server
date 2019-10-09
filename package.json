@@ -10,7 +10,7 @@
     "start": "nodemon --exec babel-node ./app.js",
     "coveralls": "nyc report  --reporter=text-lcov  | coveralls",
     "ci": "npm run nyctest && npm run coveralls",
-    "create": "node --require @babel/register ./config/myDb.js createTables"
+    "create": "node --require @babel/register ./config/myDb.js createAllTables"
   },
   "repository": {
     "type": "git",

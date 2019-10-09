@@ -38,11 +38,56 @@ const createTables = () => {
         });
 };
 
+const createArticleTables = () => {
+    const articleTable = `CREATE TABLE IF NOT EXISTS
+      articles(
+        id SERIAL PRIMARY KEY,
+        owner INTEGER REFERENCES users (id),
+        title VARCHAR NOT NULL,
+        article VARCHAR NOT NULL,
+        updated_on TIMESTAMP NOT NULL,
+        created_on TIMESTAMP NOT NULL
+      )`;
+    pool.query(articleTable)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+
+
+const createArticleCategories = () => {
+    const categoryTable = `CREATE TABLE IF NOT EXISTS
+      categories(
+        article_id INTEGER REFERENCES articles (id),
+        category VARCHAR
+      )`;
+    pool.query(categoryTable)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+
+const createAllTables = () => {
+    createTables();
+    createArticleTables();
+    createArticleCategories()
+}
+
 pool.on('remove', () => {
     console.log('client removed');
     process.exit(0);
 });
 
 
-module.exports = { createTables, pool };
+module.exports = { createAllTables, pool };
 require('make-runnable')

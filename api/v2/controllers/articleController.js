@@ -6,6 +6,7 @@ import users from '../models/user'
 import checkInt from '../heplpers/checkInt'
 import findById from '../heplpers/findById'
 import filterItem from '../heplpers/filterItem'
+import { pool } from '../../../config/myDb'
 
 export default class ArticleController {
     /**
@@ -15,22 +16,48 @@ export default class ArticleController {
      */
 
     static async create(req, res) {
-        const value = req.value
-        const category = req.category
-        category.forEach(obj => {
-            categories.push({ category: obj, articleId: value.id })
+        const value = await req.value
+        const category = await req.category
+        const categoryText = ('INSERT INTO categories(article_id, category) VALUES($1,$2) RETURNING *')
+
+        const text = ('INSERT INTO articles( owner, title, article, updated_on, created_on) VALUES($1, $2, $3, $4, $5) RETURNING *')
+        const values = [value.owner, value.title, value.article, value.updatedOn, value.createdOn]
+        pool.connect(async (err, client, done) => {
+            if (err) throw err
+
+            client.query(text, values, async (error, response) => {
+                if (error) throw error
+                try {
+                    category.forEach(obj => {
+                        client.query(categoryText, [response.rows[0].id, obj], async (error, response, done) => {
+                            if (error) throw error
+                            try {
+                                return;
+                            } catch (error) {
+                                return res.status(500).send({
+                                    status: 500,
+                                    error: `the following error happened ${error}, we will fix it soon`
+                                })
+                            }
+                        })
+                    })
+
+                    const row = response.rows[0]
+                    row.category = category
+                    res.status(201).json({
+                        status: 201,
+                        message: "article created successfully",
+                        data: row
+                    });
+
+                } catch (error) {
+                    return res.status(500).send({
+                        status: 500,
+                        error: `the following error happened ${error}, we will fix it soon`
+                    })
+                }
+            })
         })
-
-        articles.push({ ...value })
-
-        const data = { ...value, category }
-        res.status(201).json({
-            status: 201,
-            message: 'article created successfully',
-            data
-        })
-
-
     }
     /**
      * @description This helps the authorized Employee to update their article
