@@ -62,10 +62,7 @@ export default class AuthanticationController {
                 const token = jwt.sign(User, app.get(process.env.secret));
                 res.status(200).json({
                     status: 200,
-                    message: 'User is successfully logged in',
-                    data: {
-                        token: token
-                    }
+                    data: token
                 })
             } else {
                 res.status(401).json({ status: 401, error: 'fuck or password do not match' });
