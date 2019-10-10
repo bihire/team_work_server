@@ -168,16 +168,28 @@ export default class ArticleController {
     * @param  {object} res - The response object
     */
     static async get_all(req, res) {
-        try {
-            res.status(200).json({
-                status: 200,
-                message: 'success',
-                data: arraySort(articles, 'updatedOn').reverse(),
-            })
-        } catch (error) {
-            res.status(400).json(error)
-        }
+        const findAll = 'SELECT * FROM articles'
+        pool.connect(async (err, client) => {
+            if (err) throw err
 
+            client.query(findAll, async (error, response) => {
+                if (error) throw error
+                try {
+
+                    return res.status(201).json({
+                        status: 201,
+                        message: "successfully fetched all articles",
+                        data: arraySort(response.rows, 'updatedOn').reverse(),
+                    });
+
+                } catch (error) {
+                    return res.status(500).send({
+                        status: 500,
+                        error: `the following error happened ${error}, we will fix it soon`
+                    })
+                }
+            })
+        })
     }
     /**
     * @description This helps the authorized Employee can get one article if it exists
