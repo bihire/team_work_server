@@ -68,47 +68,94 @@ export default class ArticleController {
         try {
             const { articleId } = req.params
             const value = req.newValue
+
             const category = req.newCategory
+            const categoryText = ('INSERT INTO categories(article_id, category) VALUES($1,$2) RETURNING *')
 
-            let update = articles.find(article => article.owner == value.owner && article.id == articleId)
-            if (update == undefined) {
-                throw res.status(404).send({
-                    status: 'error',
-                    error: "the property doesn't exist"
+            const findOne = 'SELECT * FROM articles WHERE id = $1 AND owner = $2'
+            const updateArticle = `UPDATE articles
+      SET title=$1,article=$2,updated_on=$3
+      WHERE id=$4 AND owner= $5 returning *`;
+
+            pool.connect(async (err, client, done) => {
+                if (err) throw err
+                client.query(findOne, [Number(articleId), value.owner], async (error, response, done) => {
+
+                    if (error) throw error
+                    try {
+
+                        if (!response.rows[0]) {
+                            return res.status(404).send({ 'message': 'article not found' });
+                        }
+
+                        const values = [
+                            value.title || response.rows[0].title,
+                            value.aricle || response.rows[0].article,
+                            value.updatedOn,
+                            articleId,
+                            value.owner,
+
+                        ]
+
+                        client.query(updateArticle, values, async (error, response) => {
+                            if (error) throw error
+
+                            try {
+                                if (category) {
+
+                                    console.log(category)
+                                    const deleteQuery = ('DELETE FROM categories WHERE article_id=$1 RETURNING *')
+                                    client.query(deleteQuery, [articleId], async (error, response, done) => {
+                                        if (error) throw error
+                                        try {
+                                            return;
+                                        } catch (error) {
+                                            return res.status(500).send({
+                                                status: 500,
+                                                error: `the following error happened while deleting associated categories ${error}, we will fix it soon`
+                                            })
+                                        }
+                                    })
+
+                                    category.forEach(obj => {
+                                        client.query(categoryText, [articleId, obj], async (error, response, done) => {
+                                            if (error) throw error
+                                            try {
+                                                return;
+                                            } catch (error) {
+                                                return res.status(500).send({
+                                                    status: 500,
+                                                    error: `the following error happened ${error}, we will fix it soon`
+                                                })
+                                            }
+                                        })
+                                    })
+                                }
+                                const row = response.rows[0]
+                                row.category = category
+                                res.status(201).json({
+                                    status: 201,
+                                    message: "article created successfully",
+                                    data: row
+                                });
+
+                            } catch (error) {
+                                return res.status(500).send({
+                                    status: 500,
+                                    error: `the following error happened ${error}, we will fix it soon`
+                                })
+                            }
+                        })
+                    } catch (error) {
+                        return res.status(500).send({
+                            status: 500,
+                            error: `the following error happened while deleting associated categories ${error}, we will fix it soon`
+                        })
+                    }
                 });
-            }
-            update.article = value.article ? value.article : update.article;
-            update.title = value.title ? value.title : update.title;
-            update.updatedOn = value.updatedOn ? value.updatedOn : update.updatedOn;
 
-            const brp = categories.filter(obj => {
-                return obj.articleId == articleId
+
             })
-            if (category) {
-
-                brp.forEach(f => categories.splice(categories.findIndex(e => e.articleId == f.articleId), 1))
-
-                category.forEach(obj => {
-                    categories.push({ category: obj, articleId: articleId })
-                })
-                const data = { ...update, category }
-                return res.status(200).send({
-                    status: 'success',
-                    data
-                });
-
-            } else {
-                const category = []
-                brp.forEach(obj => {
-                    return category.push(obj.category)
-                })
-
-                const data = { ...update, category }
-                return res.status(200).send({
-                    status: 'success',
-                    data
-                });
-            }
 
         } catch (error) {
             res.status(400).json(error)
