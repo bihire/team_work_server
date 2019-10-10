@@ -77,10 +77,32 @@ const createArticleCategories = () => {
         });
 };
 
+const createArticleComments = () => {
+    const commentTable = `CREATE TABLE IF NOT EXISTS
+      comments(
+        id SERIAL PRIMARY KEY,
+        owner INTEGER REFERENCES users (id),
+        article_id INTEGER REFERENCES articles (id),
+        comment VARCHAR NOT NULL,        
+        updated_on TIMESTAMP NOT NULL,
+        created_on TIMESTAMP NOT NULL
+      )`;
+    pool.query(commentTable)
+        .then((res) => {
+            console.log(res);
+            pool.end();
+        })
+        .catch((err) => {
+            console.log(err);
+            pool.end();
+        });
+};
+
 const createAllTables = () => {
     createTables();
     createArticleTables();
-    createArticleCategories()
+    createArticleCategories();
+    createArticleComments()
 }
 
 pool.on('remove', () => {
