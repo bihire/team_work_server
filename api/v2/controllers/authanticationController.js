@@ -62,23 +62,39 @@ export default class AuthanticationController {
     static async login(req, res) {
         try {
             const value = req.value;
-            const User = users.find(user => user.email === value.email);
-            if (!User) {
-                throw res.status(401).json({
-                    message: 'email or password do not match'
-                });
-            }
-            const isUser = await comparePassword({ value, User })
+            const fetch_text = 'SELECT * FROM users WHERE email = $1'
+            const values= [value.email]
+            pool.connect(async (err, client, done) => {
+                if (err) throw err
+                client.query(fetch_text, values, async (error, results) => {
+                    if (error) throw error
+                    try {
 
-            if (isUser) {
-                const token = jwt.sign(User, app.get(process.env.secret));
-                res.status(200).json({
-                    status: 200,
-                    data: token
+                        if(!results.rows[0])  return res.status(401).json({
+                            message: 'invalid email or password'
+                        });
+                        const User = results.rows[0]
+                        const isUser = await comparePassword({value, User})
+                        if (isUser) {
+                            const token = jwt.sign(User, app.get(process.env.secret));
+                            res.status(200).json({
+                                status: 200,
+                                message: 'User is successfully logged in',
+                                data: {
+                                    token: token
+                                }
+                            })
+                        } else {
+                        res.status(401).json({ status: 401, error: 'invalid email or password' });
+                        }
+                    } catch (error) {
+                        return res.status(500).send({ 
+                            status: 500,
+                            error: `the following error happened ${error}, we will fix it soon`
+                        })
+                    }
                 })
-            } else {
-                res.status(401).json({ status: 401, error: 'fuck or password do not match' });
-            }
+            })
 
         } catch (error) {
             res.status(403).send({
