@@ -234,22 +234,64 @@ export default class ArticleController {
                 status: 403,
                 error: 'articleId must be an integer, greater than 0 and contain less or equal to 8 characters long'
             })
-            const validId = findById(articles, checkInteger)
-            if (!validId) {
-                throw res.status(404).send({
-                    status: 'error',
-                    error: `article ${checkInteger} does not exist`
-                });
-            }
-            const brp = filterItem(comments, checkInteger)
+            const findComments = 'SELECT * FROM comments WHERE article_id = $1'
+            const findOne = 'SELECT * FROM articles WHERE id = $1'
+            pool.connect(async (err, client) => {
+                if (err) throw err
+                console.log()
+                client.query(findOne, [checkInteger], async (error, response) => {
+                    if (error) throw error
+                    try {
+                        if (!response.rows[0]) {
+                            throw res.status(404).send({
+                                status: 'error',
+                                error: `article ${checkInteger} does not exist`
+                            });
+                        }
+                        const data = {
+                            id: response.rows[0].id,
+                            authorId: response.rows[0].owner,
+                            title: response.rows[0].title,
+                            article: response.rows[0].article,
+                            updatedOn: response.rows[0].updated_on,
+                            createdOn: response.rows[0].created_on,
+                        }
 
-            const data = { ...validId, comments: brp }
-            res.status(200).json({
-                status: 200,
-                message: `successfuly found article ${checkInteger}`,
-                data
+                        client.query(findComments, [data.id], async (error, resp) => {
+                            if (error) throw error
+                            try {
+                                const fetchedData = resp.rows.map(obj => {
+                                    return {
+                                        commentId: obj.id,
+                                        authorId: obj.owner,
+                                        comment: obj.comment
+                                    }
+                                })
+
+                                data.comments = fetchedData
+                                return res.status(200).send({
+                                    status: 200,
+                                    message: `success`,
+                                    data: data
+                                });
+
+                            } catch (error) {
+                                return res.status(500).send({
+                                    status: 500,
+                                    error: `the following error happened ${error}, we will fix it soon`
+                                })
+                            }
+                        })
+
+
+                    } catch (error) {
+                        return res.status(500).send({
+                            status: 500,
+                            error: `the following error happened ${error}, we will fix it soon`
+                        })
+                    }
+                })
             })
-
         } catch (error) {
             res.status(400).json(error)
         }
