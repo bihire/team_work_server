@@ -234,15 +234,6 @@ export default class ArticleController {
                     }
                 })
             })
-            // const brp = filterItem(comments, checkInteger)
-
-            // const data = { ...validId, comments: brp }
-            // res.status(200).json({
-            //     status: 200,
-            //     message: `successfuly found article ${checkInteger}`,
-            //     data
-            // })
-
         } catch (error) {
             res.status(400).json(error)
         }
