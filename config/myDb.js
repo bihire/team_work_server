@@ -2,19 +2,19 @@ import { Pool } from 'pg'
 import env from 'dotenv'
 env.config()
 const pool = new Pool({
-    user: process.env.USER,
-    host: process.env.HOST,
-    database: process.env.DATABASE,
-    password: process.env.PASSWORD,
-    post: process.env.POST,
+  user: process.env.USER,
+  host: process.env.HOST,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
+  post: process.env.POST,
 })
 
 pool.on('connect', () => {
-    console.log('connected to the Database');
+  console.log('connected to the Database');
 });
 
 const createTables = () => {
-    const userTable = `CREATE TABLE IF NOT EXISTS
+  const userTable = `CREATE TABLE IF NOT EXISTS
       users(
         id SERIAL PRIMARY KEY,
         first_name VARCHAR(25) NOT NULL,
@@ -27,19 +27,19 @@ const createTables = () => {
         job_role VARCHAR(128) NOT NULL,
         password VARCHAR(128) NOT NULL
       )`;
-    pool.query(userTable)
-        .then((res) => {
-            console.log(res);
-            pool.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            pool.end();
-        });
+  pool.query(userTable)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
 };
 
 const createArticleTables = () => {
-    const articleTable = `CREATE TABLE IF NOT EXISTS
+  const articleTable = `CREATE TABLE IF NOT EXISTS
       articles(
         id SERIAL PRIMARY KEY,
         owner INTEGER REFERENCES users (id),
@@ -48,37 +48,37 @@ const createArticleTables = () => {
         updated_on TIMESTAMP NOT NULL,
         created_on TIMESTAMP NOT NULL
       )`;
-    pool.query(articleTable)
-        .then((res) => {
-            console.log(res);
-            pool.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            pool.end();
-        });
+  pool.query(articleTable)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
 };
 
 
 const createArticleCategories = () => {
-    const categoryTable = `CREATE TABLE IF NOT EXISTS
+  const categoryTable = `CREATE TABLE IF NOT EXISTS
       categories(
         article_id INTEGER REFERENCES articles (id),
         category VARCHAR
       )`;
-    pool.query(categoryTable)
-        .then((res) => {
-            console.log(res);
-            pool.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            pool.end();
-        });
+  pool.query(categoryTable)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
 };
 
 const createArticleComments = () => {
-    const commentTable = `CREATE TABLE IF NOT EXISTS
+  const commentTable = `CREATE TABLE IF NOT EXISTS
       comments(
         id SERIAL PRIMARY KEY,
         owner INTEGER REFERENCES users (id),
@@ -87,27 +87,27 @@ const createArticleComments = () => {
         updated_on TIMESTAMP NOT NULL,
         created_on TIMESTAMP NOT NULL
       )`;
-    pool.query(commentTable)
-        .then((res) => {
-            console.log(res);
-            pool.end();
-        })
-        .catch((err) => {
-            console.log(err);
-            pool.end();
-        });
+  pool.query(commentTable)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
 };
 
 const createAllTables = () => {
-    createTables();
-    createArticleTables();
-    createArticleCategories();
-    createArticleComments()
+  createTables();
+  createArticleTables();
+  createArticleCategories();
+  createArticleComments()
 }
 
 pool.on('remove', () => {
-    console.log('client removed');
-    process.exit(0);
+  console.log('client removed');
+  process.exit(0);
 });
 
 
