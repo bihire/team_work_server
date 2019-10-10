@@ -188,15 +188,37 @@ export default class ArticleController {
     * @param  {object} res - The response object
     */
     static async get_all(req, res) {
-        try {
-            res.status(200).json({
-                status: 200,
-                message: 'success',
-                data: arraySort(articles, 'updatedOn').reverse(),
+        const findAll = 'SELECT * FROM articles'
+        pool.connect(async (err, client) => {
+            if (err) throw err
+
+            client.query(findAll, async (error, response) => {
+                if (error) throw error
+                try {
+                    const fetchedData = response.rows.map(obj => {
+                        return {
+                            id: obj.id,
+                            authorId: obj.owner,
+                            title: obj.title,
+                            article: obj.article,
+                            updatedOn: obj.updated_on,
+                            createdOn: obj.created_on
+                        }
+                    })
+                    return res.status(200).json({
+                        status: 200,
+                        message: "successfully fetched all articles",
+                        data: arraySort(fetchedData, 'updatedOn').reverse(),
+                    });
+
+                } catch (error) {
+                    return res.status(500).send({
+                        status: 500,
+                        error: `the following error happened ${error}, we will fix it soon`
+                    })
+                }
             })
-        } catch (error) {
-            res.status(400).json(error)
-        }
+        })
 
     }
     /**
