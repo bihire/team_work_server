@@ -204,21 +204,44 @@ export default class ArticleController {
                 status: 403,
                 error: 'articleId must be an integer, greater than 0 and contain less or equal to 8 characters long'
             })
-            const validId = findById(articles, checkInteger)
-            if (!validId) {
-                throw res.status(404).send({
-                    status: 'error',
-                    error: `article ${checkInteger} does not exist`
-                });
-            }
-            const brp = filterItem(comments, checkInteger)
 
-            const data = { ...validId, comments: brp }
-            res.status(200).json({
-                status: 200,
-                message: `successfuly found article ${checkInteger}`,
-                data
+            const findOne = 'SELECT * FROM articles WHERE id = $1'
+            pool.connect(async (err, client) => {
+                if (err) throw err
+                console.log()
+                client.query(findOne, [checkInteger], async (error, response) => {
+                    if (error) throw error
+                    try {
+                        if (!response.rows[0]) {
+                            throw res.status(404).send({
+                                status: 'error',
+                                error: `article ${checkInteger} does not exist`
+                            });
+                        }
+
+
+                        return res.status(201).send({
+                            status: 201,
+                            message: `successfully fetched article with ${checkInteger}`,
+                            data: response.rows[0]
+                        });
+
+                    } catch (error) {
+                        return res.status(500).send({
+                            status: 500,
+                            error: `the following error happened ${error}, we will fix it soon`
+                        })
+                    }
+                })
             })
+            // const brp = filterItem(comments, checkInteger)
+
+            // const data = { ...validId, comments: brp }
+            // res.status(200).json({
+            //     status: 200,
+            //     message: `successfuly found article ${checkInteger}`,
+            //     data
+            // })
 
         } catch (error) {
             res.status(400).json(error)
