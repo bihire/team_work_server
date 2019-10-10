@@ -1,16 +1,12 @@
-import { Pool } from 'pg'
-import env from 'dotenv'
-env.config()
+import { Pool } from "pg";
+import dotenv from "dotenv";
+dotenv.config();
 const pool = new Pool({
-  user: process.env.USER,
-  host: process.env.HOST,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
-  post: process.env.POST,
-})
+  connectionString: process.env.DATABASE_URL
+});
 
-pool.on('connect', () => {
-  console.log('connected to the Database');
+pool.on("connect", () => {
+  console.log("connected to the Database");
 });
 
 const createTables = () => {
@@ -27,12 +23,13 @@ const createTables = () => {
         job_role VARCHAR(128) NOT NULL,
         password VARCHAR(128) NOT NULL
       )`;
-  pool.query(userTable)
-    .then((res) => {
+  pool
+    .query(userTable)
+    .then(res => {
       console.log(res);
       pool.end();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       pool.end();
     });
@@ -48,17 +45,17 @@ const createArticleTables = () => {
         updated_on TIMESTAMP NOT NULL,
         created_on TIMESTAMP NOT NULL
       )`;
-  pool.query(articleTable)
-    .then((res) => {
+  pool
+    .query(articleTable)
+    .then(res => {
       console.log(res);
       pool.end();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       pool.end();
     });
 };
-
 
 const createArticleCategories = () => {
   const categoryTable = `CREATE TABLE IF NOT EXISTS
@@ -66,12 +63,13 @@ const createArticleCategories = () => {
         article_id INTEGER REFERENCES articles (id),
         category VARCHAR
       )`;
-  pool.query(categoryTable)
-    .then((res) => {
+  pool
+    .query(categoryTable)
+    .then(res => {
       console.log(res);
       pool.end();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       pool.end();
     });
@@ -87,12 +85,13 @@ const createArticleComments = () => {
         updated_on TIMESTAMP NOT NULL,
         created_on TIMESTAMP NOT NULL
       )`;
-  pool.query(commentTable)
-    .then((res) => {
+  pool
+    .query(commentTable)
+    .then(res => {
       console.log(res);
       pool.end();
     })
-    .catch((err) => {
+    .catch(err => {
       console.log(err);
       pool.end();
     });
@@ -102,14 +101,13 @@ const createAllTables = () => {
   createTables();
   createArticleTables();
   createArticleCategories();
-  createArticleComments()
-}
+  createArticleComments();
+};
 
-pool.on('remove', () => {
-  console.log('client removed');
+pool.on("remove", () => {
+  console.log("client removed");
   process.exit(0);
 });
 
-
 module.exports = { createAllTables, pool };
-require('make-runnable')
+require("make-runnable");
