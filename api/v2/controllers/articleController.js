@@ -47,7 +47,15 @@ export default class ArticleController {
                     res.status(200).json({
                         status: 200,
                         message: "article created successfully",
-                        data: row
+                        data: {
+                            id: row.id,
+                            authorId: row.owner,
+                            title: row.title,
+                            article: row.article,
+                            updatedOn: row.updated_on,
+                            createdOn: row.created_on,
+                            category: row.category
+                        }
                     });
 
                 } catch (error) {
