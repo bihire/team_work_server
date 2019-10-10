@@ -47,7 +47,15 @@ export default class ArticleController {
                     res.status(201).json({
                         status: 201,
                         message: "article created successfully",
-                        data: row
+                        data: {
+                            id: row.id,
+                            authorId: row.owner,
+                            title: row.title,
+                            article: row.article,
+                            updatedOn: row.updated_on,
+                            createdOn: row.created_on,
+                            category: row.category
+                        }
                     });
 
                 } catch (error) {
@@ -68,7 +76,11 @@ export default class ArticleController {
         try {
             const { articleId } = req.params
             const value = req.newValue
-
+            const checkInteger = checkInt(articleId)
+            if (checkInteger === false) throw res.status(403).json({
+                status: 403,
+                error: 'articleId must be an integer, greater than 0 and contain less or equal to 8 characters long'
+            })
             const category = req.newCategory
             const categoryText = ('INSERT INTO categories(article_id, category) VALUES($1,$2) RETURNING *')
 
