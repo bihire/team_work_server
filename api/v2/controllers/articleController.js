@@ -145,9 +145,9 @@ export default class ArticleController {
                                 }
                                 const row = response.rows[0]
                                 row.category = category
-                                res.status(201).json({
-                                    status: 201,
-                                    message: "article created successfully",
+                                res.status(200).json({
+                                    status: 200,
+                                    message: "article updated successfully",
                                     data: {
                                         id: row.id,
                                         authorId: row.owner,
